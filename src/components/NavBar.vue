@@ -1,9 +1,12 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
         <div class="container-fluid" id="navbar">
+            <!-- <router-link class="navbar-brand" to="/">
+                <img src="https://anushqakandan.github.io/Capstone_images/logo.jpg" loading="lazy" alt="logo">
+            </router-link> -->
             <router-link class="navbar-brand" to="/">
-                <img src=" " loading="lazy" alt="logo">
-            </router-link>
+          <img src="https://anushqakandan.github.io/Capstone_images/logo.jpg" alt="logo" class="img-thumbnail" loading="lazy"/> 
+        </router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">

@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-1"></div>
           <div class="col-3">
-            <i class="las la-truck"></i>
+            <i class="bi bi-truck"></i>
           </div>
           <div class="col-5">
             <h5><b>Free shipping</b></h5>
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-1"></div>
           <div class="col-3">
-            <i class="las la-check-circle"></i>
+            <i class="bi bi-check2-square"></i>
           </div>
           <div class="col-5">
             <h5><b>Money Guarantee</b></h5>
@@ -44,7 +44,7 @@
         <div class="row">
           <div class="col-1"></div>
           <div class="col-3">
-            <i class="las la-headphones"></i>
+            <i class="bi bi-headset"></i>
           </div>
           <div class="col-5">
             <h5><b>Online Support 24/7</b></h5>
@@ -57,7 +57,7 @@
         <div class="row">
           <div class="col-1"></div>
           <div class="col-3">
-            <i class="las la-wallet"></i>
+            <i class="bi bi-wallet2"></i>
           </div>
           <div class="col-5">
             <h5><b>Secure Payment</b></h5>
@@ -69,8 +69,6 @@
       </div>
     </div>
   </section>
-
-
 
     <h2>Recent Products</h2>
     <div class="row gap-2 justify-content-center" v-if="recentProducts">
@@ -132,5 +130,21 @@ color: white;
   color: goldenrod;
   margin-top: 28rem;
 }
+.service{
+    display:flex;
+    justify-content: center;
+  }
+  .service h5{
+    font-size:15px;
+  }
+  .service p{
+    font-size:14px;
+  }
+  .service i{
+    font-size:30px;
+  }
+  .service .meh{
+    width:90vw;
+  }
 
 </style>
