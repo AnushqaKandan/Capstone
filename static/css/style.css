@@ -1,0 +1,45 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+    text-align: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+}
+
+
+h2 {
+    margin-top: 30px;
+}
+
+table.endpoint {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    width: 80%;
+    margin-left: auto;   
+    margin-right: auto;  
+}
+
+table.endpoint th, table.endpoint td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+table.endpoint th {
+    background-color: crimson;
+    color: white;
+}
+
+th, td {
+    width: 20rem;
+}
