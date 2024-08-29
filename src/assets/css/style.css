@@ -31,18 +31,31 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+   
 }
 
-nav {
-    padding: 30px;
-}
 
-nav a {
+.navbar-nav .nav-link {
+    color: var(--secondary);
     font-weight: bold;
-    color: #2c3e50;
 }
 
+
+
+a { 
+    transition: all .5s;
+ 
+ }
+
+ .navbar a:hover {
+    transform: scale(1.2);
+    text-decoration: underline;
+    color: goldenrod; 
+}
+
+.navbar-toggler {
+    border-color: goldenrod; 
+}
 
 body {
     scroll-behavior: smooth;
@@ -61,12 +74,12 @@ img[alt='logo'] {
 }
 
 /* Login */
-:is(.form-control-wrapper) {  
+/* :is(.form-control-wrapper) {  
     margin-block: .4rem;
     & button {
         margin-block: .3rem;
     }
-}
+} */
 
 /* Media query */
 /* width 100% */
@@ -82,7 +95,3 @@ img[alt='logo'] {
 :is(#navbar, footer){
     background-color: var(--tertiary);
 }
-
-
-/* With Subgrid,
-we may set the col or row of the inner grid to rely on the parent rows and columns. */
