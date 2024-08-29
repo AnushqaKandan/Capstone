@@ -22,6 +22,28 @@ class Products{
           }
     }
 
+    recentProducts(req, res) {
+        try {
+            const strQry = `
+            SELECT prodID, prodName, amount, Category, prodURL
+            FROM Products
+            ORDER BY prodID DESC
+            LIMIT 5;
+            `
+            db.query(strQry, (err, results) => {
+                if (err) throw new Error('Unable to retrieve recent products')
+                res.json({
+                    status: res.statusCode,
+                    results
+                })
+            })
+        } catch (e) {
+            res.json({
+                status: 404,
+                msg: e.message
+            })
+        }
+    }
     fetchProduct(req, res) {
         try {
             const strQry = `SELECT prodID, prodName, amount, Category, prodURL

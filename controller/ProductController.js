@@ -12,6 +12,9 @@ productRouter.get('/', (req, res) => {
     products.fetchProducts(req, res)
 })
 
+productRouter.get('/recent', (req, res) => {
+    products.recentProducts(req, res)
+})
 
 productRouter.get('/:id', (req, res) => {
     products.fetchProduct(req, res)
