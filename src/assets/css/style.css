@@ -33,7 +33,9 @@
     text-align: center;
    
 }
-
+.navbar{
+    padding-block: 0 !important;
+}
 
 .navbar-nav .nav-link {
     color: var(--secondary);
