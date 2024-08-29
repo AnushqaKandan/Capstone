@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Capstone API</title>
+</head>
+<body>
+    <h1>API Endpoints for Capstone</h1>
+
+    <h2>Home Page</h2>
+    <table class="endpoint">
+        <thead>
+            <tr>
+                <th>HTTP Method</th>
+                <th>Path</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/</td>
+                <td>Home page</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Users</h2>
+    <table class="endpoint">
+        <thead>
+            <tr>
+                <th>HTTP Method</th>
+                <th>Path</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/users</td>
+                <td>Retrieve all users</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/users/:id</td>
+                <td>Retrieve a user by ID</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/users/register</td>
+                <td>Register a new user</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td>/users/:id</td>
+                <td>Update a user by ID</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/users/:id</td>
+                <td>Delete a user by ID</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/users/login</td>
+                <td>Allows a user to login</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Products</h2>
+    <table class="endpoint">
+        <thead>
+            <tr>
+                <th>HTTP Method</th>
+                <th>Path</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/products</td>
+                <td>Retrieve all products</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/products/:id</td>
+                <td>Retrieve a product by ID</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/products/add</td>
+                <td>Add a new product</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td>/products/:id</td>
+                <td>Update a product by ID</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/products/:id</td>
+                <td>Delete a product by ID</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
