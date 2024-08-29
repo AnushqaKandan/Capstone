@@ -9,8 +9,6 @@
     </div>
     </div>
    
-  
-  
   <section class="service">
     <div class="row mt-5 meh">
       <div class="col-3">
@@ -21,7 +19,7 @@
           </div>
           <div class="col-5">
             <h5><b>Free shipping</b></h5>
-            <p>Free Shipping On All Orders</p>
+            <p>Free Shipping On All Orders over R20 000</p>
           </div>
           <div class="col-1"></div>
         </div>
@@ -89,8 +87,8 @@
 </template>
 
 <script>
-import Card from '@/components/Card.vue'
-import Spinner from '@/components/Spinner.vue'
+import Card from '@/components/CardComp.vue'
+import Spinner from '@/components/SpinnerComp.vue'
 export default {
   name: 'HomeView',
   components: {
@@ -118,7 +116,7 @@ background-image: url('https://anushqakandan.github.io/Capstone_images/Main3.web
 
 @media only screen and (max-width: 767px) {
     .backdrop {
-        background-position: center; /* Adjust to display a different part for mobile view */
+        background-position: center; 
     }
 }
 
@@ -129,6 +127,7 @@ color: white;
 .display-4{
   color: goldenrod;
   margin-top: 28rem;
+  
 }
 .service{
     display:flex;
@@ -146,5 +145,6 @@ color: white;
   .service .meh{
     width:90vw;
   }
+
 
 </style>
