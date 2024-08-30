@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="backdrop">
  <div class="row">
       <h2 class="display-2">Luminous Gems</h2>
@@ -112,6 +112,7 @@ background-image: url('https://anushqakandan.github.io/Capstone_images/Main3.web
     background-size: cover; 
     background-repeat: no-repeat; 
     height: 85vh;
+    margin-top: 0.5rem;
 }
 
 @media only screen and (max-width: 767px) {
@@ -126,7 +127,7 @@ color: white;
 
 .display-4{
   color: goldenrod;
-  margin-top: 28rem;
+  margin-top: 2rem;
   
 }
 .service{

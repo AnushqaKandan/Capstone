@@ -94,6 +94,6 @@ img[alt='logo'] {
 /* NavBar */
 
 /*Navbar & footer*/
-:is(#navbar, footer){
+:is(#navbar, .footer){
     background-color: var(--tertiary);
 }

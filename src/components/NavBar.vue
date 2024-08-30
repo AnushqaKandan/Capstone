@@ -24,7 +24,9 @@
                         <router-link class="nav-link" to="/products">Products</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/checkout">Checkout</router-link>
+                        <router-link class="nav-link" to="/checkout">Checkout
+                            <!-- <span class="badge bg-warning rounded-pill">{{ cartCount }}</span> -->
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/admin">Admin</router-link>
@@ -51,6 +53,20 @@
 
 <script>
 export default {
-    
+    // data() {
+    //     return {
+    //         cartCount: 0
+    //     };
+    // },
+    // created() {
+    //     // Mock example - in reality, this data might come from a store or API
+    //     this.cartCount = this.getCartCount();
+    // },
+    // methods: {
+    //     getCartCount() {
+    //         // Logic to get the cart count, possibly from a Vuex store or API
+    //         return 3; // Replace with actual logic
+    //     }
+    // }
 }
 </script>

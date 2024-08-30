@@ -1,7 +1,7 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid footer">
         <div class="row">
-            <p class="lead">
+            <p class="lead text-white">
                 LG &copy; <span id="currYear"></span>
             </p>
         </div>
