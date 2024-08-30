@@ -1,5 +1,6 @@
 import { userRouter, express } from './controller/UserController.js'
 import { productRouter } from './controller/ProductController.js'
+import { cartRouter } from './controller/CartController.js'
 import cors from 'cors'
 import path from 'path'
 
@@ -30,6 +31,9 @@ app.use('/products', productRouter)
 app.get('^/$|/NodeEOMP', (req, res) => {
     res.status(200).sendFile(path.resolve('./static/html/index.html'))
 })
+app.use('/cart', cartRouter);
+
+
 
 app.get('*', (req, res) => {
     res.json({
