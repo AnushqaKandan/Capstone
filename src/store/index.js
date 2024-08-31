@@ -217,7 +217,7 @@ export default createStore({
         })
       }
     },
-    async addAProduct(context, payload) {
+    async addProduct(context, payload) {
       try {
         const { msg } = await (await axios.post(`${apiURL}products/add`, payload)).data
         if (msg) {
@@ -235,34 +235,40 @@ export default createStore({
       }
     },
     async updateProduct(context, payload) {
-      try {
-        const { msg } = await (await axios.patch(`${apiURL}products/${payload.productID}`, payload)).data
-        if (msg) {
+      try{
+        console.log(payload);
+        let {msg, err}= await (await axios.patch(`${apiURL}products/${payload.prodID}`, payload)).data
+        if(msg) {
           context.dispatch('fetchProducts')
-          toast.success(`${msg}`, {
+          toast?.success(msg, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }else {
+          toast?.error(err, {
+                  autoClose: 2000,
+                  position: toast.POSITION.BOTTOM_CENTER
+                })
+              }
+        }catch(e){
+          toast?.error(e.message, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER
           })
         }
-      } catch (e) {
-        toast.error(`${e.message}`, {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-      }
-    },
+        },
     async deleteProduct(context, id) {
       try {
         const { msg } = await (await axios.delete(`${apiURL}products/${id}`)).data
         if (msg) {
           context.dispatch('fetchProducts')
-          toast.success(`${msg}`, {
+          toast?.success(msg, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER
           })
         }
       } catch (e) {
-        toast.error(`${e.message}`, {
+        toast?.error(`Unable to delete a product`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER
         })
