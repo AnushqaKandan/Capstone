@@ -1,7 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
+import AuthOptions from '../views/AuthOptions.vue';
+
 const routes = [
   {
     path: '/',
+    name: 'auth-options',
+    component: AuthOptions,
+  },
+  {
+    path: '/home',
     name: 'home',
     component: () => import('@/views/HomeView.vue')
   },
@@ -34,28 +42,44 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: () => import('@/views/ContactView.vue')
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/ProfileView.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/components/LoginComp.vue')
   }
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: () => import('@/views/LoginView.vue')
-  // },
+  
   // {
   //   path: '/logout',
   //   name: 'logout',
-  //   component: () => import('@/views/LoginView.vue')
-  // },
-  // {
-  //   path: '/signup',
-  //   name: 'signup',
-  //   component: () => import('@/views/SignUp.vue')
+  //   beforeEnter: (to, from, next) => {
+  //     localStorage.removeItem('token');
+  //     next('/login');
+  //   }
   // }
-  
+ 
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthenticated) {
+      next({ name: 'auth-options' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <h1>
-        Single Product
-    </h1>
-
+    <h1>Profile Settings</h1>
   </div>
 </template>
 
@@ -13,7 +10,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
 
 </style>
