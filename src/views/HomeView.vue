@@ -59,7 +59,7 @@
           </div>
           <div class="col-5">
             <h5><b>Secure Payment</b></h5>
-            <p>AI Cash Accepted</p>
+            <p>All payment methods accepted</p>
           </div>
           <div class="col-1"></div>
         </div>
@@ -70,7 +70,7 @@
 
     <h2>Recent Products</h2>
     <div class="row gap-2 justify-content-center" v-if="recentProducts">
-      <Card v-for="product in recentProducts" :key="product.prodID">
+      <Card v-for="product in recentProducts" :key="product.prodID" class="products">
         <template #cardHeader>
           <img :src="product.prodURL" loading="lazy" class="img-fluid" :alt="product.prodName">
         </template>
@@ -146,6 +146,10 @@ color: white;
   .service .meh{
     width:90vw;
   }
+  .products{
+    border: 1px solid black;
+    margin-bottom: 1rem;
+}
 
 
 </style>
