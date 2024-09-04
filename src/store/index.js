@@ -47,42 +47,24 @@ export default createStore({
   },
   actions: {
     // Users
-    async fetchUsers(context) {
+    async fetchUsers({ commit }) {
       try {
-        const { results, msg } = await (await axios.get(`${apiURL}users`)).data;
-        if (results) {
-          context.commit('setUsers', results);
-        } else {
-          toast.error(`${msg}`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
-        }
-      } catch (e) {
-        toast.error(`${e.message}`, {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
+        let { result } = await (await axios.get(`${apiURL}users`)).data;
+        commit('setUsers', result);
+      } catch (error) {
+        toast?.error(`Failed to fetch users: ${error.message}`, { autoClose: 2000 });
       }
     },
-    async fetchUser(context, id) {
+
+    async fetchUser({ commit }, userId) {
       try {
-        const { result, msg } = await (await axios.get(`${apiURL}users/${id}`)).data;
-        if (result) {
-          context.commit('setUser', result);
-        } else {
-          toast.error(`${msg}`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
-        }
-      } catch (e) {
-        toast.error(`${e.message}`, {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
+        let { data } = await axios.get(`${apiURL}users/${userId}`);
+        commit('setUser', data.results);
+      } catch (error) {
+        toast?.error(`Failed to fetch user: ${error.message}`, { autoClose: 2000 });
       }
     },
+
     async register(context, payload) {
       try {
         const { msg, err, token } = await (await axios.post(`${apiURL}users/register`, payload)).data;
@@ -95,7 +77,6 @@ export default createStore({
           context.commit('setToken', token); // Set token on register
           cookies.set('LegitUser', { token, msg });
           applyToken(token);
-          // router.push({ name: 'login' });
         } else {
           toast.error(`${err}`, {
             autoClose: 2000,
@@ -109,43 +90,50 @@ export default createStore({
         });
       }
     },
+
     async updateUser(context, payload) {
+      console.log(payload.data);
       try {
-        const { msg, err } = await (await axios.patch(`${apiURL}users/${payload.userID}`, payload)).data;
+        const { msg, err } = await (await axios.patch(`${apiURL}users/${payload.id}`, payload.data)).data
         if (msg) {
-          context.dispatch('fetchUsers');
+          context.dispatch('fetchUsers')
+          toast.success(msg, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
         } else {
           toast.error(`${err}`, {
             autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+            position: toast.POSITION.BOTTOM_CENTER
+          })
         }
       } catch (e) {
-        toast.error(`${e.message}`, {
+        toast?.error(`${e.msg}`, {
           autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
+          position: toast.POSITION.BOTTOM_CENTER
+        })
       }
     },
+
+    
     async deleteUser(context, id) {
       try {
-        const { msg, err } = await (await axios.delete(`${apiURL}users/${id}`)).data;
+        const { msg } = await (await axios.delete(`${apiURL}users/${id}`)).data
         if (msg) {
-          context.dispatch('fetchUsers');
-        } else {
-          toast.error(`${err}`, {
+          context.dispatch('fetchUsers')
+          toast.success(msg, {
             autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+            position: toast.POSITION.BOTTOM_CENTER
+          })
         }
       } catch (e) {
-        toast.error(`${e.message}`, {
+        toast?.error(`Unable to delete a user`, {
           autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
+          position: toast.POSITION.BOTTOM_CENTER
+        })
       }
     },
-    
+
     // ===== LOGIN =======
     async login(context, payload) {
       try {

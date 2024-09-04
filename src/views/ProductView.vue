@@ -1,4 +1,5 @@
 <template>
+  <NavBar/> 
   <div class="container">
     <h1>
         Single Product
@@ -8,8 +9,12 @@
 </template>
 
 <script>
-export default {
+import NavBar from '@/components/NavBar.vue'
 
+export default {
+  components: {
+    NavBar
+  }
 }
 </script>
 

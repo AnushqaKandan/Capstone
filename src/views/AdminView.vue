@@ -1,4 +1,5 @@
 <template>
+  <NavBar/> 
     <div>
       <!-- USERS TABLE -->
       <h2>Users Table</h2>
@@ -79,12 +80,14 @@
     </div>
   </template>
   <script>
+  import NavBar from '@/components/NavBar.vue'
   import updateUser from '@/components/UpdateUser.vue';
   import updateProduct from '@/components/UpdateProduct.vue';
   import addProduct from '@/components/AddProduct.vue';
   import addUser from '@/components/AddUser.vue';
   export default {
     components: {
+      NavBar,
       updateUser,
       updateProduct,
       addProduct,
@@ -99,8 +102,8 @@
       }
     },
     mounted() {
-      this.$store.dispatch('getProducts');
-      this.$store.dispatch('getUsers');
+      this.$store.dispatch('fetchProducts');
+      this.$store.dispatch('fetchUsers');
     },
     methods: {
       deleteUser(userID) {
@@ -240,18 +243,15 @@
       content: "Product Name";
     }
     .products-table td:nth-child(3):before {
-      content: "Quantity";
-    }
-    .products-table td:nth-child(4):before {
       content: "Amount";
     }
-    .products-table td:nth-child(5):before {
+    .products-table td:nth-child(4):before {
       content: "Category";
     }
-    .products-table td:nth-child(6):before {
+    .products-table td:nth-child(5):before {
       content: "Product URL";
     }
-    .products-table td:nth-child(7):before {
+    .products-table td:nth-child(6):before {
       content: "Action";
     }
   }

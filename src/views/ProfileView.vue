@@ -1,12 +1,17 @@
 <template>
+    <NavBar/> 
   <div class="container">
     <h1>Profile Settings</h1>
   </div>
 </template>
 
 <script>
-export default {
+import NavBar from '@/components/NavBar.vue'
 
+export default {
+  components: {
+    NavBar
+  }
 }
 </script>
 

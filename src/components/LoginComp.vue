@@ -10,10 +10,12 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" required />
       </div>
-      <button type="submit">Login</button>
+      <div class="button-group">
+        <button type="submit">Login</button>
+        <button class="btn" @click="$emit('close')">Close</button>
+      </div>
     </form>
     <p v-if="error" class="error">{{ error }}</p>
-    <button class="btn btn-secondary" @click="$emit('close')">Close</button>
   </div>
 </template>
 
@@ -30,33 +32,30 @@ export default {
   },
   methods: {
     async login() {
-  console.log('Email:', this.email);
-  console.log('Password:', this.password);
-  try {
-    const response = await axios.post('http://localhost:3005/users/login', {
-      emailAdd: this.email,
-      userPass: this.password,
-    });
-    console.log('Response:', response);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      this.$router.push('/home');
+      console.log('Email:', this.email);
+      console.log('Password:', this.password);
+      try {
+        const response = await axios.post('http://localhost:3005/users/login', {
+          emailAdd: this.email,
+          userPass: this.password,
+        });
+        console.log('Response:', response);
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+          this.$router.push('/home');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        this.error = err.response?.data?.msg || 'Login failed. Please try again.';
+      }
     }
-  } catch (err) {
-    console.error('Error:', err);
-    this.error = err.response?.data?.msg || 'Login failed. Please try again.';
-  }
-}
-
   }
 };
-
-
 </script>
 
 <style scoped>
 .login-container {
-  max-width: 400px;
+  width: 25rem;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -65,6 +64,8 @@ export default {
 }
 h1 {
   text-align: center;
+  color: white;
+  font-size: 3rem;
 }
 .form-group {
   margin-bottom: 15px;
@@ -72,14 +73,24 @@ h1 {
 label {
   display: block;
   margin-bottom: 5px;
+  color: goldenrod;
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
 input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
 }
+/* .button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
 button {
-  width: 50%;
+  width: 48%;
   padding: 10px;
   background-color: maroon;
   color: white;
@@ -89,10 +100,71 @@ button {
 }
 button:hover {
   background-color: #45a049;
-}
+} */
 .error {
   color: red;
   text-align: center;
   margin-top: 10px;
 }
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* From Uiverse.io by zanina-yassine */ 
+button {
+  min-width: 120px;
+  
+  position: relative;
+  cursor: pointer;
+
+  padding: 12px 17px;
+  border: 0;
+  border-radius: 7px;
+
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: radial-gradient(
+    ellipse at bottom,
+    rgba(71, 81, 92, 1) 0%,
+    rgba(11, 21, 30, 1) 45%
+  );
+
+  color: white;
+
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+button::before {
+  content: "";
+  width: 70%;
+  height: 1px;
+
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.2;
+
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+button:hover {
+  color: rgb(255, 255, 255, 1);
+  transform: scale(1.1) translateY(-3px);
+}
+
+button:hover::before {
+  opacity: 1;
+}
+
+
+
 </style>

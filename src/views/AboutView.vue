@@ -1,4 +1,5 @@
 <template>
+  <NavBar/> 
   <div class="container">
     <div class="row">
      <h1>About</h1>  
@@ -42,6 +43,13 @@
 
 
 <script>
+import NavBar from '@/components/NavBar.vue'
+
+export default {
+  components: {
+    NavBar
+  }
+}
 </script>
 
 <style scoped>
