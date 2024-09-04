@@ -55,9 +55,9 @@ a {
     color: goldenrod; 
 }
 
-.navbar-toggler {
+/* .navbar-toggler {
     border-color: goldenrod; 
-}
+} */
 
 body {
     scroll-behavior: smooth;
@@ -85,11 +85,11 @@ img[alt='logo'] {
 
 /* Media query */
 /* width 100% */
-@media screen and (width < 900px) {
+/* @media screen and (width < 900px) {
     :is(.form-control-wrapper button) {
         width: 100%;
     }
-}
+} */
 
 /* NavBar */
 

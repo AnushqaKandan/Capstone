@@ -1,4 +1,5 @@
 <template>
+    <NavBar/> 
     <div class="container">
         <div class="row">
             <h2 class="display-2">Products</h2>
@@ -23,11 +24,11 @@
         <div v-else>
             <Spinner />
         </div>
-    
     </div>
 </template>
 
 <script setup>
+import NavBar from '@/components/NavBar.vue'
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import Spinner from '@/components/SpinnerComp.vue'

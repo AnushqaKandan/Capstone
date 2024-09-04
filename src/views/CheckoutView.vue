@@ -1,12 +1,17 @@
 <template>
+  <NavBar/> 
   <div>
     <h1>Cart</h1>
   </div>
 </template>
 
 <script>
-export default {
+import NavBar from '@/components/NavBar.vue'
 
+export default {
+  components: {
+    NavBar
+  }
 }
 </script>
 

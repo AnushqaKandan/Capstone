@@ -1,4 +1,6 @@
 <template>
+  <NavBar/> 
+ 
   <div class="container-fluid">
     <div class="backdrop">
  <div class="row">
@@ -87,13 +89,15 @@
 </template>
 
 <script>
+import NavBar from '@/components/NavBar.vue'
 import Card from '@/components/CardComp.vue'
 import Spinner from '@/components/SpinnerComp.vue'
 export default {
   name: 'HomeView',
   components: {
     Card,
-    Spinner
+    Spinner,
+    NavBar,
   },
   computed: {
     recentProducts() {

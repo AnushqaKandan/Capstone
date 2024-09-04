@@ -1,4 +1,5 @@
 <template>
+  <NavBar/> 
   <div class="container-fluid contactback">
     <div class="row">
       <h1>Contact Us</h1>
@@ -33,11 +34,18 @@
 </template>
 
 <script>
+import NavBar from '@/components/NavBar.vue'
+
+export default {
+  components: {
+    NavBar
+  }
+}
 </script>
 
 <style scoped>
 .contactback{
-  background-image: url('https://anushqakandan.github.io/Capstone_images/Contact2.jpg');
+  background-image: url('https://anushqakandan.github.io/Capstone_images/login6.jpg');
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: center; 
