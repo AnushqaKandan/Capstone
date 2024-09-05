@@ -26,32 +26,34 @@
             <router-link class="nav-link" to="/" aria-current="page">Login</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/home" aria-current="page">Home</router-link>
+            <router-link class="nav-link" to="/home"  exact-active-class="active-link" aria-current="page">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about" aria-current="page">About</router-link>
+            <router-link class="nav-link" to="/about"  exact-active-class="active-link" aria-current="page">About</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/products" aria-current="page">Products</router-link>
+            <router-link class="nav-link" to="/products"  exact-active-class="active-link" aria-current="page">Products</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/checkout" aria-current="page">Checkout
+            <router-link class="nav-link" to="/checkout"  exact-active-class="active-link" aria-current="page">Checkout
               <!-- <span class="badge bg-warning rounded-pill">{{ cartCount }}</span> -->
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/admin">Admin</router-link>
+          <li v-if="userRole === 'Admin'" class="nav-item">
+            <router-link class="nav-link" to="/admin" exact-active-class="active-link" aria-current="page">Admin</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/contact"
-              >Contact Info</router-link
-            >
+            <router-link class="nav-link" to="/contact" exact-active-class="active-link" aria-current="page">Contact Info</router-link>
           </li>
           <ul class="userAccount navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" to="/profile">Profile</router-link>
+              <router-link class="nav-link" to="/profile" exact-active-class="active-link" aria-current="page">Profile</router-link>
             </li>
           </ul>
+      <li><button @click="logout">Logout</button></li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/logout" exact-active-class="active-link" aria-current="page">Logout</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -60,6 +62,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters(['userRole']),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout'); // Use Vuex action for logout
+      this.$router.push('/login'); // Redirect to login page
+    }
+  }
+};
+</script>
+
+<style scoped>
+.active-link {
+    text-decoration: underline;
+    color: goldenrod; 
+}
+</style>
+<!-- <script> -->
 // export default {
 //     // data() {
 //     //     return {
@@ -77,4 +101,4 @@
 //     //     }
 //     // }
 // }
-</script>
+<!-- </script> -->

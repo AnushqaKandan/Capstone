@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store';
 import AuthOptions from '../views/LoginView.vue';
+import AdminView from '@/views/AdminView.vue';
 
 const routes = [
   {
@@ -36,7 +37,7 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('@/views/AdminView.vue')
+    component: AdminView,
   },
   {
     path: '/contact',
@@ -52,17 +53,18 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/components/LoginComp.vue')
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    beforeEnter: (to, from, next) => {
+      store.dispatch('logout').then(() => {
+        next('/login');
+      }).catch(() => {
+        next('/login');
+      });
+    }
   }
-  
-  // {
-  //   path: '/logout',
-  //   name: 'logout',
-  //   beforeEnter: (to, from, next) => {
-  //     localStorage.removeItem('token');
-  //     next('/login');
-  //   }
-  // }
- 
 ]
 
 const router = createRouter({
@@ -71,15 +73,23 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isAuthenticated) {
-      next({ name: 'auth-options' });
-    } else {
-      next();
-    }
+  const isAuthenticated = store.getters.isAuthenticated;
+  const isAdmin = store.getters.userRole === 'Admin';
+
+  console.log(`Navigating to ${to.path}`);
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('isAdmin:', isAdmin);
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+    console.log('Redirecting to auth-options');
+    next({ name: 'auth-options' });
+  } else if (to.matched.some(record => record.meta.requiresAdmin) && !isAdmin) {
+    console.log('Redirecting to home');
+    next({ name: 'home' });
   } else {
     next();
   }
 });
 
-export default router
+
+export default router;
