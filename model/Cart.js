@@ -38,7 +38,7 @@ class Cart {
     addToCart(prodID, userID, res) {
         const checkProductQry = `
             SELECT * FROM cart
-            WHERE prodID = ${prodID} AND userID = ${userID};
+            WHERE prodID = ? AND userID = ?;
         `;
         
         connection.query(checkProductQry, [prodID, userID], (err, results) => {
