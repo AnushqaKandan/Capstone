@@ -18,17 +18,16 @@ class Cart {
             Products ON cart.prodID = Products.prodID
         WHERE 
             cart.userID = ?;
-    `;
+        `;
     
         connection.query(strQry, [userID], (err, results) => {
             if (err) {
-                res.json({
-                    status: 500,
-                    msg: 'Unable to fetch cart items.'
+                res.status(500).json({
+                    msg: 'Unable to fetch cart items.',
+                    error: err
                 });
             } else {
-                res.json({
-                    status: res.statusCode,
+                res.status(200).json({
                     results
                 });
             }
@@ -39,14 +38,14 @@ class Cart {
     addToCart(prodID, userID, res) {
         const checkProductQry = `
             SELECT * FROM cart
-            WHERE prodID = ? AND userID = ?;
+            WHERE prodID = ${prodID} AND userID = ${userID};
         `;
         
         connection.query(checkProductQry, [prodID, userID], (err, results) => {
             if (err) {
-                res.json({
-                    status: 500,
-                    msg: 'Error while checking the cart.'
+                res.status(500).json({
+                    msg: 'Error while checking the cart.',
+                    error: err
                 });
                 return;
             }
@@ -62,13 +61,12 @@ class Cart {
                 
                 connection.query(updateQry, [updatedQuantity, prodID, userID], (err) => {
                     if (err) {
-                        res.json({
-                            status: 500,
-                            msg: 'Error while updating the cart.'
+                        res.status(500).json({
+                            msg: 'Error while updating the cart.',
+                            error: err
                         });
                     } else {
-                        res.json({
-                            status: res.statusCode,
+                        res.status(200).json({
                             msg: 'Product quantity updated in cart.'
                         });
                     }
@@ -82,13 +80,12 @@ class Cart {
                 
                 connection.query(insertQry, [prodID, userID], (err) => {
                     if (err) {
-                        res.json({
-                            status: 500,
-                            msg: 'Error while adding product to the cart.'
+                        res.status(500).json({
+                            msg: 'Error while adding product to the cart.',
+                            error: err
                         });
                     } else {
-                        res.json({
-                            status: res.statusCode,
+                        res.status(200).json({
                             msg: 'Product added to cart.'
                         });
                     }
@@ -106,9 +103,9 @@ class Cart {
         
         connection.query(checkProductQry, [prodID, userID], (err, results) => {
             if (err) {
-                res.json({
-                    status: 500,
-                    msg: 'Error while checking the cart.'
+                res.status(500).json({
+                    msg: 'Error while checking the cart.',
+                    error: err
                 });
                 return;
             }
@@ -125,13 +122,12 @@ class Cart {
                     
                     connection.query(deleteQry, [prodID, userID], (err) => {
                         if (err) {
-                            res.json({
-                                status: 500,
-                                msg: 'Error while removing product from the cart.'
+                            res.status(500).json({
+                                msg: 'Error while removing product from the cart.',
+                                error: err
                             });
                         } else {
-                            res.json({
-                                status: res.statusCode,
+                            res.status(200).json({
                                 msg: 'Product removed from cart.'
                             });
                         }
@@ -146,21 +142,19 @@ class Cart {
                     
                     connection.query(updateQry, [updatedQuantity, prodID, userID], (err) => {
                         if (err) {
-                            res.json({
-                                status: 500,
-                                msg: 'Error while updating product quantity in cart.'
+                            res.status(500).json({
+                                msg: 'Error while updating product quantity in cart.',
+                                error: err
                             });
                         } else {
-                            res.json({
-                                status: res.statusCode,
+                            res.status(200).json({
                                 msg: 'Product quantity decreased in cart.'
                             });
                         }
                     });
                 }
             } else {
-                res.json({
-                    status: 404,
+                res.status(404).json({
                     msg: 'Product not found in cart.'
                 });
             }

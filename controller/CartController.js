@@ -12,33 +12,14 @@ cartRouter.get('/:userID', (req, res) => {
 });
 
 cartRouter.post('/addToCart', (req, res) => {
-    const { prodID, userID } = req.query;
+    const { prodID, userID } = req.body; // Use req.body for POST
     cart.addToCart(prodID, userID, res);
 });
 
 cartRouter.delete('/deleteFromCart', (req, res) => {
-    const { prodID, userID } = req.query;
+    const { prodID, userID } = req.body; // Use req.body for DELETE
     cart.deleteFromCart(prodID, userID, res);
 });
-
-
-// cartRouter.get('/', (req, res) => {
-//     cart. fetchCart(req, res)
-// })
-
-
-// cartRouter.get('/:id', (req, res) => {
-//     cart.itemsInCart(req, res)
-// })
-
-// cartRouter.post('/add', (req, res) => {
-//     cart.addToCart(req, res)
-// })
-
-// cartRouter.delete('/:id', (req, res) => {
-//     cart.deleteFromCart(req, res)
-// })
-
 
 export {
     cartRouter
