@@ -4,11 +4,11 @@
     <form @submit.prevent="login">
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
+        <input type="email" id="email" v-model="emailAdd" required />
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
+        <input type="password" id="password" v-model="userPass" required />
       </div>
       <div class="button-group">
         <button type="submit">Login</button>
@@ -20,35 +20,24 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      emailAdd: '',
+      userPass: '',
       error: ''
     };
   },
   methods: {
-    async login() {
-      console.log('Email:', this.email);
-      console.log('Password:', this.password);
-      try {
-        const response = await axios.post('http://localhost:3005/users/login', {
-          emailAdd: this.email,
-          userPass: this.password,
-        });
-        console.log('Response:', response);
-        if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
-          this.$router.push('/home');
-        }
-      } catch (err) {
-        console.error('Error:', err);
-        this.error = err.response?.data?.msg || 'Login failed. Please try again.';
-      }
+
+    login() {
+      this.$store.dispatch('login', {
+        emailAdd: this.emailAdd , userPass: this.userPass
+      })
     }
+
   }
 };
 </script>
@@ -84,23 +73,6 @@ input {
   padding: 8px;
   box-sizing: border-box;
 }
-/* .button-group {
-  display: flex;
-  justify-content: space-between;
-}
-
-button {
-  width: 48%;
-  padding: 10px;
-  background-color: maroon;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #45a049;
-} */
 .error {
   color: red;
   text-align: center;
@@ -112,7 +84,6 @@ button:hover {
   justify-content: space-between;
 }
 
-/* From Uiverse.io by zanina-yassine */ 
 button {
   min-width: 120px;
   
