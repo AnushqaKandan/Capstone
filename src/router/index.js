@@ -54,17 +54,17 @@ const routes = [
     name: 'login',
     component: () => import('@/components/LoginComp.vue')
   },
-  {
-    path: '/logout',
-    name: 'logout',
-    beforeEnter: (to, from, next) => {
-      store.dispatch('logout').then(() => {
-        next('/login');
-      }).catch(() => {
-        next('/login');
-      });
-    }
-  }
+  // {
+  //   path: '/logout',
+  //   name: 'logout',
+  //   beforeEnter: (to, from, next) => {
+  //     store.dispatch('logout').then(() => {
+  //       next('/');
+  //     }).catch(() => {
+  //       next('/');
+  //     });
+  //   }
+  // }
 ]
 
 const router = createRouter({

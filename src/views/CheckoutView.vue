@@ -1,14 +1,13 @@
 <template> 
 <NavBar/> 
     <div class="container">
-      <h1>Checkout</h1>
+      <h1 class="display-3">Checkout</h1>
       <table>
         <thead>
           <tr>
             <th>Product Name</th>
             <th>Category</th>
             <th>Product</th>
-            <th>Description</th>
             <th>Price</th>
             <th>Action</th>
           </tr>
@@ -48,15 +47,15 @@ export default {
   },
   computed: {
     ...mapState({
-      cartItems: state => state.cart.items,
-      userId: state => state.auth.userId
+      cartItems: state => state.cartItems,
+      userID: state => state.user.userID
     })
   },
   methods: {
     ...mapActions(['fetchCartItems', 'clearCart', 'removeItem', 'payNow']),
     async fetchCartItems() {
       try {
-        const response = await this.$axios.get(`/api/cart/${this.userId}`);
+        const response = await this.$axios.get(`/api/cart/${this.userID}`);
         if (response.status === 200) {
           this.$store.commit('setCartItems', response.data.results);
         }

@@ -1,7 +1,7 @@
 <template>
     <NavBar/> 
   <div class="container">
-    <h1>Profile Settings</h1>
+    <h1 class="display-3">Profile Settings</h1>
   </div>
 </template>
 

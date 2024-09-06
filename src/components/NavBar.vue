@@ -36,7 +36,7 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/checkout"  exact-active-class="active-link" aria-current="page">Checkout
-              <!-- <span class="badge bg-warning rounded-pill">{{ cartCount }}</span> -->
+                <span class="badge bg-warning rounded-pill" counter>0</span>
             </router-link>
           </li>
           <li v-if="userRole === 'Admin'" class="nav-item">
@@ -51,9 +51,7 @@
             </li>
           </ul>
       <li><button @click="logout">Logout</button></li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/logout" exact-active-class="active-link" aria-current="page">Logout</router-link>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -71,7 +69,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout'); // Use Vuex action for logout
-      this.$router.push('/login'); // Redirect to login page
+      this.$router.push('/'); // Redirect to login page
     }
   }
 };

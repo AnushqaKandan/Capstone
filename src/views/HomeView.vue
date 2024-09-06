@@ -70,7 +70,7 @@
     </div>
   </section>
 
-    <h2>Recent Products</h2>
+    <h1>Recent Products</h1>
     <div class="row gap-2 justify-content-center" v-if="recentProducts">
       <Card v-for="product in recentProducts" :key="product.prodID" class="products">
         <template #cardHeader>
@@ -111,6 +111,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
 .backdrop { 
 background-image: url('https://anushqakandan.github.io/Capstone_images/Main3.webp');
     background-size: cover; 
@@ -127,11 +129,17 @@ background-image: url('https://anushqakandan.github.io/Capstone_images/Main3.web
 
 .display-2 {
 color: white;
+font-family: "Poetsen One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .display-4{
   color: goldenrod;
   margin-top: 2rem;
+  font-family: "Poetsen One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   
 }
 .service{

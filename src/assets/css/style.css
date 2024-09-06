@@ -97,3 +97,7 @@ img[alt='logo'] {
 :is(#navbar, .footer){
     background-color: var(--tertiary);
 }
+
+.display-3{
+    font-size: 2rem;
+}
