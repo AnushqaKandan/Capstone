@@ -8,7 +8,7 @@ cartRouter.use(bodyParser.json())
 
 
 cartRouter.get('/:userID', (req, res) => {
-    cart.fetchCart(req.params.userID, res);
+    cart.fetchCart(req, res);
 });
 
 cartRouter.post('/addToCart', (req, res) => {
@@ -20,6 +20,8 @@ cartRouter.delete('/deleteFromCart', (req, res) => {
     const { prodID, userID } = req.body; // Use req.body for DELETE
     cart.deleteFromCart(prodID, userID, res);
 });
+
+
 
 export {
     cartRouter

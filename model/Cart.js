@@ -2,13 +2,14 @@ import { connection } from '../config/index.js';
 
 class Cart {
     // Fetch all items in the cart for a specific user
-    fetchCart(userID, res) {
+    fetchCart(req, res) {
         const strQry = `
         SELECT 
             cart.cartID,
             cart.quantity,  
             Products.prodName AS prodName,
             Products.amount,
+            Products.category AS category,
             (cart.quantity * Products.amount) AS total_price,
             Products.prodURL,
             Products.prodID AS prodID
@@ -17,10 +18,10 @@ class Cart {
         JOIN 
             Products ON cart.prodID = Products.prodID
         WHERE 
-            cart.userID = ?;
+            cart.userID = ${req.params.userID};
         `;
     
-        connection.query(strQry, [userID], (err, results) => {
+        connection.query(strQry, (err, results) => {
             if (err) {
                 res.status(500).json({
                     msg: 'Unable to fetch cart items.',
