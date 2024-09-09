@@ -95,72 +95,25 @@ class Cart {
         });
     }
 
-    // Remove a product from the cart or decrease its quantity
-    deleteFromCart(prodID, userID, res) {
-        const checkProductQry = `
-            SELECT * FROM cart
-            WHERE prodID = ? AND userID = ?;
-        `;
-        
-        connection.query(checkProductQry, [prodID, userID], (err, results) => {
-            if (err) {
-                res.status(500).json({
-                    msg: 'Error while checking the cart.',
-                    error: err
-                });
-                return;
-            }
-            
-            if (results.length > 0) {
-                const updatedQuantity = results[0].quantity - 1;
-                
-                if (updatedQuantity <= 0) {
-                    // If quantity is 0 or less, remove the product from the cart
-                    const deleteQry = `
-                        DELETE FROM cart
-                        WHERE prodID = ? AND userID = ?;
-                    `;
-                    
-                    connection.query(deleteQry, [prodID, userID], (err) => {
-                        if (err) {
-                            res.status(500).json({
-                                msg: 'Error while removing product from the cart.',
-                                error: err
-                            });
-                        } else {
-                            res.status(200).json({
-                                msg: 'Product removed from cart.'
-                            });
-                        }
-                    });
-                } else {
-                    // Otherwise, decrease the quantity
-                    const updateQry = `
-                        UPDATE cart
-                        SET quantity = ?
-                        WHERE prodID = ? AND userID = ?;
-                    `;
-                    
-                    connection.query(updateQry, [updatedQuantity, prodID, userID], (err) => {
-                        if (err) {
-                            res.status(500).json({
-                                msg: 'Error while updating product quantity in cart.',
-                                error: err
-                            });
-                        } else {
-                            res.status(200).json({
-                                msg: 'Product quantity decreased in cart.'
-                            });
-                        }
-                    });
-                }
-            } else {
-                res.status(404).json({
-                    msg: 'Product not found in cart.'
-                });
-            }
-        });
-    }
+   // Remove a product from the cart entirely
+removeFromCart(prodID, userID, res) {
+    const deleteQry = `
+        DELETE FROM cart
+        WHERE prodID = ? AND userID = ?;
+    `;
+    connection.query(deleteQry, [prodID, userID], (err) => {
+        if (err) {
+            res.status(500).json({
+                msg: 'Error while removing product from the cart.',
+                error: err
+            });
+        } else {
+            res.status(200).json({
+                msg: 'Product removed from cart.'
+            });
+        }
+    });
+}
 }
 
 export {
