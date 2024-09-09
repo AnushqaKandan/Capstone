@@ -28,10 +28,10 @@ app.use(
 )
 app.use('/users', userRouter)
 app.use('/products', productRouter)
+app.use('/cart', cartRouter);
 app.get('^/$|/NodeEOMP', (req, res) => {
     res.status(200).sendFile(path.resolve('./static/html/index.html'))
 })
-app.use('/cart', cartRouter);
 
 
 

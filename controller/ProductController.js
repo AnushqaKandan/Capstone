@@ -7,7 +7,6 @@ const productRouter = express.Router()
 
 productRouter.use(bodyParser.json())
 
-
 productRouter.get('/', verifyAToken, (req, res) => {
     products.fetchProducts(req, res)
 })

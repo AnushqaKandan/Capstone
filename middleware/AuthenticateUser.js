@@ -1,41 +1,37 @@
-import 'dotenv/config'
-import jwt from 'jsonwebtoken'
-const { sign } = jwt
+import "dotenv/config";
+import jwt from "jsonwebtoken";
+const { sign } = jwt;
 
 function createToken(user) {
-    return sign(
+  return sign(
     {
-     emailAdd: user.emailAdd,
-     userPass: user.userPass
-    }, 
+      emailAdd: user.emailAdd,
+      userPass: user.userPass,
+    },
     process.env.SECRET_KEY,
-   {
-    expiresIn: '1h'
-   }
-)}
+    {
+      expiresIn: "1h",
+    }
+  );
+}
 
 function verifyAToken(req, res, next) {
-    const token = req?.header["authorization"]
-    if(token) {
-    if(verify(token, process.env.SECRET_KEY)) {
-        next()
-    } else{
-        res?.json( {
-            status: res.statusCode,
-            msg: "Please provide the correct credentials"
-        })
-    }
-} else {
-    res?.json({
+  const token = req?.header["authorization"];
+  if (token) {
+    if (verify(token, process.env.SECRET_KEY)) {
+      next();
+    } else {
+      res?.json({
         status: res.statusCode,
-        msg:"Please login"
-             })
-       }
+        msg: "Please provide the correct credentials",
+      });
+    }
+  } else {
+    res?.json({
+      status: res.statusCode,
+      msg: "Please login",
+    });
+  }
 }
 
-
-export {
-    createToken,
-    verifyAToken
-}
-
+export { createToken, verifyAToken };
