@@ -24,9 +24,9 @@ cartRouter.delete('/:userID', (req, res) => {
     cart.clearCart(req, res);
 });
 
-cartRouter.patch('/:userID/:prodID', (req, res) => {
-    cart.updateCartItemQuantity(req, res);
-});
+// cartRouter.patch('/:userID/:prodID', (req, res) => {
+//     cart.updateCartItemQuantity(req, res);
+// });
 
 
 export {

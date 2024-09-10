@@ -97,28 +97,28 @@ class Cart {
 
 // Update Cart Quantity
 
-updateCartItemQuantity(req, res) {
-    const { prodID, quantity, userID } = req.body;
+// updateCartItemQuantity(req, res) {
+//     const { prodID, quantity, userID } = req.body;
 
-    // Validate input
-    if (!prodID || quantity == null || !userID) {
-        return res.status(400).json({ msg: 'Missing required fields' });
-    }
+//     // Validate input
+//     if (!prodID || quantity == null || !userID) {
+//         return res.status(400).json({ msg: 'Missing required fields' });
+//     }
 
-    const updateQry = `
-        UPDATE cart
-        SET quantity = ?
-        WHERE prodID = ? AND userID = ?;
-    `;
+//     const updateQry = `
+//         UPDATE cart
+//         SET quantity = ?
+//         WHERE prodID = ? AND userID = ?;
+//     `;
 
-    connection.query(updateQry, [quantity, prodID, userID], (err) => {
-        if (err) {
-            console.error('Error updating cart quantity:', err);
-            return res.status(500).json({ msg: 'Error updating cart quantity' });
-        }
-        res.status(200).json({ msg: 'Product quantity updated successfully' });
-    });
-}
+//     connection.query(updateQry, [quantity, prodID, userID], (err) => {
+//         if (err) {
+//             console.error('Error updating cart quantity:', err);
+//             return res.status(500).json({ msg: 'Error updating cart quantity' });
+//         }
+//         res.status(200).json({ msg: 'Product quantity updated successfully' });
+//     });
+// }
 
 
 // Remove all items
