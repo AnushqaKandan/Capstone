@@ -17,23 +17,17 @@ cartRouter.post('/addToCart', (req, res) => {
 });
 
 cartRouter.delete('/:userID/:prodID', (req, res) => {
-    const { userID, prodID } = req.params;
-    cart.removeFromCart(userID, prodID, res);
+    cart.removeFromCart(req, res);
 });
 
+cartRouter.delete('/:userID', (req, res) => {
+    cart.clearCart(req, res);
+});
 
-// cartRouter.delete('/:prodID/:userID', (req, res) => {
-//     const { prodID, userID } = req.params; // Use req.params for URL parameters
+cartRouter.patch('/:userID/:prodID', (req, res) => {
+    cart.updateCartItemQuantity(req, res);
+});
 
-//     // Ensure that both prodID and userID are provided
-//     if (!prodID || !userID) {
-//         return res.status(400).json({
-//             msg: 'Product ID and User ID are required.'
-//         });
-//     }
-    
-//     cart.removeFromCart(prodID, userID, res);
-// });
 
 export {
     cartRouter

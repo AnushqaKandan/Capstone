@@ -95,24 +95,78 @@ class Cart {
         });
     }
 
-   // Remove a product from the cart entirely
-removeFromCart(prodID, userID, res) {
-    const deleteQry = `
-        DELETE FROM cart
+// Update Cart Quantity
+
+updateCartItemQuantity(req, res) {
+    const { prodID, quantity, userID } = req.body;
+
+    // Validate input
+    if (!prodID || quantity == null || !userID) {
+        return res.status(400).json({ msg: 'Missing required fields' });
+    }
+
+    const updateQry = `
+        UPDATE cart
+        SET quantity = ?
         WHERE prodID = ? AND userID = ?;
     `;
-    connection.query(deleteQry, [prodID, userID], (err) => {
+
+    connection.query(updateQry, [quantity, prodID, userID], (err) => {
         if (err) {
-            res.status(500).json({
-                msg: 'Error while removing product from the cart.',
-                error: err
-            });
-        } else {
-            res.status(200).json({
-                msg: 'Product removed from cart.'
-            });
+            console.error('Error updating cart quantity:', err);
+            return res.status(500).json({ msg: 'Error updating cart quantity' });
         }
+        res.status(200).json({ msg: 'Product quantity updated successfully' });
     });
+}
+
+
+// Remove all items
+clearCart(req, res) {
+    const userID = parseInt(req.params.userID, 10);
+    if (isNaN(userID)) {
+        return res.status(400).json({ msg: 'Invalid user ID' });
+    }
+
+    const deleteQry = ` 
+        DELETE FROM cart
+        WHERE userID = ?;
+    `;
+    
+    connection.query(deleteQry, [userID], (err) => {
+        if (err) {
+            console.error('Error removing all items from cart:', err);
+            return res.status(500).json({ msg: 'Error removing all items from cart' });
+        }
+        res.status(200).json({ msg: 'All items removed from cart successfully' });
+    });   
+}
+
+
+removeFromCart(req, res) {
+    try {
+        const userID = parseInt(req.params.userID, 10);
+        const prodID = parseInt(req.params.prodID, 10);
+
+        if (isNaN(userID) || isNaN(prodID)) {
+            return res.status(400).json({ msg: 'Invalid user ID or product ID' });
+        }
+
+        const deleteQry = `
+            DELETE FROM cart
+            WHERE prodID = ? AND userID = ?;
+        `;
+        connection.query(deleteQry, [prodID, userID], (err) => {
+            if (err) {
+                console.error('Error removing product from cart:', err);
+                return res.status(500).json({ msg: 'Error removing product from cart' });
+            }
+            res.json({ status: res.statusCode, msg: 'Product removed from cart successfully' });
+        });
+    } catch (e) {
+        console.error('Error in removeFromCart:', e);
+        res.status(500).json({ msg: e.message });
+    }
 }
 }
 
