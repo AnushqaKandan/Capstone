@@ -1,6 +1,6 @@
 <template>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success modalButton" data-bs-toggle="modal" :data-bs-target="'#updateProductModal'+product.prodID">
+    <button type="button" class="btn btn-dark modalButton" data-bs-toggle="modal" :data-bs-target="'#updateProductModal'+product.prodID">
       Update Products
     </button>
     <!-- Modal -->
@@ -26,8 +26,8 @@
                 <input type="text" class="form-control w-50 mx-auto" placeholder="Product URL" v-model="payload.prodURL">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Update</button>
               </div>
             </form>
           </div>

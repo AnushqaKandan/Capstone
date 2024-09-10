@@ -1,45 +1,58 @@
 <template> 
-<NavBar/> 
-    <div class="container">
-      <h1 class="display-3">Checkout</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Category</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="cartItems.length">
-            <td v-for="item in cartItems" :key="item.cartID"></td>
-              <td>{{ item.prodName }}</td>
-              <td>{{ item.category }}</td>
-              <td><img :src="item.prodURL" alt="Product Image" /></td>
-              <td>{{ item.quantity }}</td>
-              <td>${{ item.amount.toFixed(2) }}</td>
-              <td>
-                <button @click="removeItem(item.prodID)" class="btn btn-danger">Remove</button>
-              </td>
-            </tr>
-         
-          <tr v-if="!cartItems.length">
-            <td colspan="7" class="text-center">Your cart is empty.</td>
-          </tr>
-        </tbody>
-      </table>
-      <button @click="clearCart" class="btn btn-secondary">Clear Cart</button>
-      <button @click="payNow" class="btn btn-primary">Pay Now</button>
+  <NavBar/> 
+  <div class="container-fluid">
+    <h1 class="display-3">Checkout</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody v-if="cartItems.length">
+        <tr v-for="item in cartItems" :key="item.cartID">
+          <td>{{ item.prodName }}</td>
+          <td>{{ item.category }}</td>
+          <td><img :src="item.prodURL" alt="Product Image" /></td>
+          <td>R{{ (item.amount * item.quantity).toFixed(2) }}</td>
+          <td>
+            <input 
+              type="number" 
+              v-model="item.quantity" 
+              @change="updateQuantity(item)" 
+              min="1" 
+              step="1"
+            />
+          </td>
+          <td>
+            <button @click="removeFromCart(item.prodID)" class="btn btn-danger Removebtn">Remove</button>
+          </td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="5">
+            Total: R{{ cartItems.reduce((total, item) => total + (item.amount * item.quantity), 0).toFixed(2) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="button-group">
+      <button @click="clearCart" class="btn btn-danger">Clear Cart</button>
+      <button @click="payNow" class="btn btn-dark">Pay Now</button>
     </div>
-
+  </div>
 </template>
 
-
 <script>
+import { useCookies } from 'vue3-cookies';
 import { mapState, mapActions } from 'vuex';
 import NavBar from '@/components/NavBar.vue';
+import { toast } from 'vue3-toastify';
+
+const { cookies } = useCookies();
 
 export default {
   components: {
@@ -48,41 +61,154 @@ export default {
   computed: {
     ...mapState({
       cartItems: state => state.cartItems,
-      userID: state => state.user.userID
     })
   },
   methods: {
-    ...mapActions(['fetchCartItems', 'clearCart', 'removeItem', 'payNow']),
+    ...mapActions([
+      'fetchCartItems', 
+      'clearCart', 
+      'removeFromCart', 
+      'updateCartItemQuantity',
+      'payNow'
+    ]),
+    
     async fetchCartItems() {
       try {
-        const response = await this.$axios.get(`/api/cart/${this.userID}`);
-        if (response.status === 200) {
-          this.$store.commit('setCartItems', response.data.results);
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (userID) {
+          await this.$store.dispatch('fetchCartItems', userID);
+        } else {
+          throw new Error('User ID not found.');
         }
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
+    },
+
+    async removeFromCart(prodID) {
+      try {
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (!userID) {
+          throw new Error('User ID not found.');
+        }
+        await this.$store.dispatch('removeFromCart', { prodID, userID });
+        toast.success('Item removed from cart.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      } catch (error) {
+        toast.error('Unable to remove item from cart.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        console.error('Error removing item from cart:', error);
+      }
+    },
+
+    async updateQuantity(item) {
+      try {
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (!userID) {
+          throw new Error('User ID not found.');
+        }
+        await this.$store.dispatch('updateCartItemQuantity', { prodID: item.prodID, quantity: item.quantity, userID });
+        toast.success('Quantity updated successfully.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      } catch (error) {
+        toast.error('Unable to update quantity.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        console.error('Error updating quantity:', error);
+      }
+    },
+
+    async clearCart() {
+      try {
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (!userID) {
+          throw new Error('User ID not found.');
+        }
+        await this.$store.dispatch('clearCart', userID);
+        toast.success('Cart cleared successfully.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      } catch (error) {
+        toast.error('Failed to clear cart.', {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        console.error('Error clearing cart:', error);
+      }
+    },
+
+    async payNow() {
+      try {
+        await this.$store.dispatch('payNow');
+        toast.success('Successful, thank you for your purchase!', {
+          autoClose: 3000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      } catch (error) {
+        toast.error('Payment failed. Please try again.', {
+          autoClose: 3000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        console.error('Payment error:', error);
+      }
     }
   },
+  
   created() {
     this.fetchCartItems();
   }
-};
+}
 </script>
 
 <style scoped>
+
+.Removebtn{
+  color: white;
+  background-color: maroon;
+}
+.btn{
+  color: white;
+  background-color: maroon;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adjust the gap as needed */
+}
+.container-fluid{
+  background: rgb(222, 138, 152);
+}
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 th, td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: left;
-    background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+  background-color: white;
 }
 th {
-    background-color: #f2f2f2;
-    }
+  background-color: #f2f2f2;
+}
+img {
+  width: 100px; 
+  height: auto; 
+  object-fit: contain; 
+}
+input[type="number"] {
+  width: 100px; 
+}
+.total-row {
+  font-weight: bold; 
+}
 </style>

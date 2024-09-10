@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="btn btn-success modalButton" data-bs-toggle="modal" :data-bs-target="'#updateUserModal'+user.userID">
+    <button type="button" class="btn btn-dark modalButton" data-bs-toggle="modal" :data-bs-target="'#updateUserModal'+user.userID">
       Update User
     </button>
     <!-- Modal -->
@@ -37,8 +37,8 @@
                 <input type="text" class="form-control w-50 mx-auto" placeholder="user profile" v-model="payload.userProfile">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Update</button>
               </div>
             </form>
           </div>

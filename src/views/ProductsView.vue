@@ -44,11 +44,13 @@
                      <h5 class="card-title fw-bold">{{ product.prodName }}</h5>
                      <p class="lead"><span class="text-success fw-bold">Amount</span>: R{{ product.amount }}</p>
                     <div class="button-wrapper d-md-flex d-block justify-content-between">
-                        <router-link :to="{ name: 'products', params: { id: product.prodID } }">
-                            <button class="btn btn-success">View</button>
+                        
+                        <router-link :to="{ name: 'product', params: { id: product.prodID } }">
+                            <button class="btn btn-dark">View Product</button>
                         </router-link>
+                       
                         <!-- Add to Cart Button -->
-                        <button class="btn btn-dark" @click="addToCart(product)">Cart</button>
+                        <button class="btn btn-dark" @click="addToCart(product)">Add to Cart</button>
                     </div>
                 </template>
             </Card>
@@ -114,15 +116,12 @@ const addToCart = (product) => {
     store.dispatch('addToCart', cartItem)
 }
 
-// const addToCart = (product) => {
-//     const cartItem = {
-//         prodID: product.prodID,
-//         userID: this.userID,  // Ensure userId is available
-//         quantity: 1, 
-//     };
-//     store.dispatch('addToCart', cartItem);
-//     console.log(cartItem.userID);
-    
-// };
-
 </script>
+
+<style scoped>
+.btn{
+  color: white;
+  background-color: maroon;
+}
+
+</style>

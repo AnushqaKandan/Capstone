@@ -6,8 +6,9 @@ import router from '@/router';
 import { applyToken } from '@/service/AuthenticatedUser.js';
 import { useCookies } from 'vue3-cookies';
 const { cookies } = useCookies();
-const apiURL = 'https://capstone-w1vm.onrender.com/';
+const apiURL = 'http://localhost:3005/';
 
+applyToken(cookies.get('LegitUser')?.token)
 export default createStore({
   state: {
     users: null,
@@ -67,10 +68,9 @@ export default createStore({
         state.cartItems.push({...item, quantity: 1});
       }
     },
-    removeFromCart(state, prodID) {
-      state.cartItems = state.cartItems.filter(item => item.prodID !== prodID);
+    removeFromCart(state, { userID, prodID }) {
+      state.cartItems = state.cartItems.filter(item => item.prodID !== prodID || item.userID !== userID);
     },
-
     setAuthenticated(state, status) {
       state.isAuthenticated = status;
     },
@@ -221,9 +221,9 @@ async login({ commit }, payload) {
     // ==== Product =====
     async fetchProducts(context) {
       try {
-        const response = await axios.get(`${apiURL}products`);
-        console.log(response.data);
-        const { results, msg } = response.data;
+        const { results, msg } = await (await axios.get(`${apiURL}products`)).data;
+        console.log(results);
+        
         if (results) {
           context.commit('setProducts', results);
         } else {
@@ -329,9 +329,9 @@ async login({ commit }, payload) {
     },
 
   // ==== Cart =====
-  async fetchCartItems({ commit, state }) {
+  async fetchCartItems({ commit }, userID) {
     try {
-      const { data } = await axios.get(`${apiURL}cart/${state.user.userID}`);
+      const { data } = await axios.get(`${apiURL}cart/${userID}`);
       commit('setCartItems', data.results);
     } catch (e) {
       toast.error(`Failed to fetch cart items: ${e.message}`, {
@@ -362,27 +362,26 @@ async login({ commit }, payload) {
     }
 },
 
-
-async removeFromCart({ commit, state }, prodID) {
+async removeFromCart({ dispatch }, { prodID, userID }) {
   try {
-    const { userID } = state.user.userID; 
-    const { msg } = await axios.delete(`${apiURL}cart/deleteFromCart`, {
-      data: { prodID, userID } 
-    });
+    const { msg } = await (await axios.delete(`${apiURL}cart/${userID}/${prodID}`)).data;
     if (msg) {
-      commit('removeFromCart', prodID);
-      toast.success(`${msg}`, {
+      // Fetch updated cart items after removal
+      await dispatch('fetchCartItems', userID);
+      toast.success(msg, {
         autoClose: 2000,
-        position: toast.POSITION.BOTTOM_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER
       });
     }
   } catch (e) {
-    toast.error(`Failed to remove item from cart: ${e.message}`, {
+    toast.error('Unable to remove item from cart', {
       autoClose: 2000,
-      position: toast.POSITION.BOTTOM_CENTER,
+      position: toast.POSITION.BOTTOM_CENTER
     });
+    console.error('Error removing item from cart:', e);
   }
 },
+
   async updateCartItemQuantity({ commit }, payload) {
     try {
       const { msg } = await axios.patch(`${apiURL}cart/${payload.prodID}`, { quantity: payload.quantity });
@@ -394,7 +393,7 @@ async removeFromCart({ commit, state }, prodID) {
         });
       }
     } catch (e) {
-      toast.error(`Failed to update cart item quantity: ${e.message}`, {
+      toast.error(`${e.message}`, {
         autoClose: 2000,
         position: toast.POSITION.BOTTOM_CENTER,
       });
@@ -403,8 +402,11 @@ async removeFromCart({ commit, state }, prodID) {
 
   async clearCart({ commit, state }) {
     try {
-      const { msg } = await axios.delete(`${apiURL}cart/clear/${state.user.userID}`);
+      // Make a DELETE request to clear the cart for the current user
+      const { msg } = await axios.delete(`${apiURL}cart/${state.user.userID}`);
+      
       if (msg) {
+        // If successful, clear the cart items in the state
         commit('setCartItems', []);
         toast.success(`${msg}`, {
           autoClose: 2000,
@@ -417,7 +419,7 @@ async removeFromCart({ commit, state }, prodID) {
         position: toast.POSITION.BOTTOM_CENTER,
       });
     }
-  },  
+  },
   },
   modules: {},
 });

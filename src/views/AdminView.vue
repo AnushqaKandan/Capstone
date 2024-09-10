@@ -11,7 +11,7 @@
     <div class="container table-responsive">
       <div class="col"></div>
       <table class="table users-table" v-if="!loading && users">
-        <thead class="table-dark">
+        <thead class="table-danger">
           <tr>
             <th>User ID</th>
             <th>First Name</th>
@@ -52,7 +52,7 @@
     <addProduct/>
     <div class="container table-responsive">
       <table class="table products-table" v-if="!loading && products">
-        <thead class="table-dark">
+        <thead class="table-danger">
           <tr>
             <th>Product ID</th>
             <th>Product Name</th>
@@ -167,6 +167,11 @@ export default {
 </script>
 
 <style scoped>
+.deleteButton{
+  color: white;  
+  background-color: maroon;
+}
+
 /* Center and overlay the spinner */
 .loading-spinner {
   position: fixed; /* Fixed positioning to overlay the content */

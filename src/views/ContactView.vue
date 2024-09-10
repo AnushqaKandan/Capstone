@@ -4,6 +4,7 @@
     <div class="d-flex justify-content-center align-items-center contact-container">
       <div class="contact-row">
         <!-- Contact Info Card -->
+         <div class="info-wrapper">
         <div class="contact-card">
           <h3>Contact Information</h3>
           <p class="intro-text">
@@ -26,6 +27,7 @@
             <i class="bi bi-twitter"></i>
           </div>
         </div>
+      </div>
 
         <!-- Message Form Card -->
         <div class="contact-card">
@@ -85,7 +87,16 @@ export default {
   gap: 20px; /* Adds space between the cards */
   max-width: 1000px; /* Limits the total width */
 }
+/* .info{
+   
+} */
 
+.info-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center vertically */
+  margin-top: 5rem;
+}
 .contact-card {
   border: 1px solid black;
   width: 30rem;
@@ -94,7 +105,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  color: white;
+  color: black;
   text-align: center;
 }
 
@@ -109,7 +120,7 @@ export default {
 
 h3 {
   margin-bottom: 10px;
-  color: white;
+  color: black;
 }
 
 label {
@@ -143,10 +154,26 @@ button:hover {
   box-shadow: inset 0px 0px 25px #f120e0;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .contact-row {
     flex-direction: column;
     align-items: center;
+  }
+} */
+
+@media screen and (max-width: 1218px) {
+  .contact-row {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center;
+    gap: 20px; /* Space between stacked cards */
+  }
+
+  .info-wrapper {
+    margin-top: 0; /* Remove top margin for stacked layout */
+  }
+
+  .contact-card{
+    width: 90%;
   }
 }
 
