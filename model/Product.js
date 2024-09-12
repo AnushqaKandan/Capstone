@@ -84,70 +84,28 @@ class Products{
          }
      }
     
-    // updateProduct(req, res) {
-    //     try{
-    //     const strQry = `
-    //     UPDATE Products
-    //     SET ?
-    //     WHERE prodID = ${req.params.id}
-    //     `
-    //     db.query(strQry, [req.body], (err) => {
-    //         if(err) throw new Error('Unable to update a product')
-    //             res.json({
-    //         status: res.statusCode,
-    //         msg: 'The product was updated'
-    //       })
-    //     })
-    //   } catch(e) {
-    //     res.json({
-    //         status: 400,
-    //         err: e.message
-    //     })
-    //   }
-    //  }
     updateProduct(req, res) {
-        try {
-          const strQry = `
-          UPDATE Products
-          SET ?
-          WHERE prodID = ?
-          `;
-      
-          // Use both the product data and the prodID as parameters to prevent SQL injection
-          db.query(strQry, [req.body, req.params.id], (err, results) => {
-            if (err) {
-              // Log the error for debugging purposes
-              console.error('Error updating product:', err.message);
-              return res.status(500).json({
-                status: 500,
-                error: 'Unable to update the product',
-              });
-            }
-      
-            // Check if any rows were affected (i.e., if the product exists)
-            if (results.affectedRows === 0) {
-              return res.status(404).json({
-                status: 404,
-                error: 'Product not found',
-              });
-            }
-      
-            // Send a success response
-            res.status(200).json({
-              status: 200,
-              message: 'The product was successfully updated',
-            });
-          });
-        } catch (e) {
-          // Handle any unexpected errors
-          res.status(400).json({
+        try{
+        const strQry = `
+        UPDATE Products
+        SET ?
+        WHERE prodID = ${req.params.id}
+        `
+        db.query(strQry, [req.body], (err) => {
+            if(err) throw new Error('Unable to update a product')
+                res.json({
+            status: res.statusCode,
+            msg: 'The product was updated'
+          })
+        })
+      } catch(e) {
+        res.json({
             status: 400,
-            error: e.message,
-          });
-        }
+            err: e.message
+        })
       }
-      
-
+     }
+    
      deleteProduct(req, res) {
         try{
             const strQry = `
