@@ -19,13 +19,15 @@ export default createStore({
     product: null,
     isAuthenticated: false,
     userRole: null,
-    token: localStorage.getItem('token') || '',
+   token: localStorage.getItem('token') || '',
    cartItems: [],
+   cartCount: 0,
 
   },
   getters: {
     isAuthenticated: state => state.isAuthenticated,
     userRole: state => state.userRole,
+    cartCount: state => state.cartCount,  // Getter for cart count
     cartItems: state => state.cartItems,
     cartTotal: state => {
     return state.cartItems.reduce((total, item) => {
@@ -58,9 +60,24 @@ export default createStore({
       state.token = '';
       localStorage.removeItem('token');
     },
+    // setCartItems(state, items) {
+    //   state.cartItems = items;
+    // },
     setCartItems(state, items) {
       state.cartItems = items;
+      state.cartCount = items.reduce((count, item) => count + item.quantity, 0);  // Update cartCount based on items
     },
+    // addToCart(state, item) {
+    //   const existingItem = state.cartItems.find(cartItem => cartItem.prodID === item.prodID);
+    //   if (existingItem) {
+    //     existingItem.quantity += 1;
+    //   } else {
+    //     state.cartItems.push({...item, quantity: 1});
+    //   }
+    // },
+    // removeFromCart(state, { userID, prodID }) {
+    //   state.cartItems = state.cartItems.filter(item => item.prodID !== prodID || item.userID !== userID);
+    // },
     addToCart(state, item) {
       const existingItem = state.cartItems.find(cartItem => cartItem.prodID === item.prodID);
       if (existingItem) {
@@ -68,9 +85,18 @@ export default createStore({
       } else {
         state.cartItems.push({...item, quantity: 1});
       }
+      state.cartCount += 1;  // Increment cart count
     },
     removeFromCart(state, { userID, prodID }) {
-      state.cartItems = state.cartItems.filter(item => item.prodID !== prodID || item.userID !== userID);
+      const itemToRemove = state.cartItems.find(item => item.prodID === prodID && item.userID === userID);
+      if (itemToRemove) {
+        state.cartCount -= itemToRemove.quantity;  // Decrease cartCount by the quantity of the removed item
+        state.cartItems = state.cartItems.filter(item => item.prodID !== prodID || item.userID !== userID);
+      }
+    },
+    clearCart(state) {
+      state.cartItems = [];
+      state.cartCount = 0;  // Reset cartCount
     },
     setAuthenticated(state, status) {
       state.isAuthenticated = status;
@@ -385,7 +411,6 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
       autoClose: 2000,
       position: toast.POSITION.BOTTOM_CENTER
     });
-    console.error('Error removing item from cart:', e);
   }
 },
 
@@ -407,26 +432,6 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
     }
   },
 
-  // async clearCart({ commit, state }) {
-  //   try {
-  //     // Make a DELETE request to clear the cart for the current user
-  //     const { msg } = await axios.delete(`${apiURL}cart/${state.user.userID}`);
-      
-  //     if (msg) {
-  //       // If successful, clear the cart items in the state
-  //       commit('setCartItems', []);
-  //       toast.success(`${msg}`, {
-  //         autoClose: 2000,
-  //         position: toast.POSITION.BOTTOM_CENTER,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     toast.error(`Failed to clear cart: ${e.message}`, {
-  //       autoClose: 2000,
-  //       position: toast.POSITION.BOTTOM_CENTER,
-  //     });
-  //   }
-  // },
   async clearCart({ commit }) {
     try {
       // Retrieve user ID from cookies
@@ -442,7 +447,7 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
   
       if (msg) {
         // If successful, clear the cart items in the state
-        commit('setCartItems', []);
+        commit('clearCart');
         toast.success(`${msg}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,

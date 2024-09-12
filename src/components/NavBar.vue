@@ -36,7 +36,7 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/checkout"  exact-active-class="active-link" aria-current="page">Checkout
-                <span class="badge bg-warning rounded-pill" counter>0</span>
+              <span class="badge bg-warning rounded-pill">{{ cartCount }}</span>
             </router-link>
           </li>
           <li v-if="userRole === 'Admin'" class="nav-item">
@@ -61,19 +61,23 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useCookies } from 'vue3-cookies';
+const { cookies } = useCookies();
 
 export default {
   computed: {
-    ...mapGetters(['userRole']),
+    ...mapGetters(['cartCount', 'userRole'])  // Map cartCount getter
   },
   methods: {
     logout() {
       this.$store.dispatch('logout'); // Use Vuex action for logout
       this.$router.push('/'); // Redirect to login page
+      cookies.remove('LegitUser'); // Remove user cookies on logout
     }
   }
 };
 </script>
+
 
 <style scoped>
 .active-link {
