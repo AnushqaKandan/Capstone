@@ -45,11 +45,12 @@
           prodID: this.product.prodID,
           prodName: this.product.prodName,
           amount: this.product.amount,
-          category: this.product.category,
+          category: this.product.Category,
           prodURL: this.product.prodURL
         }
       }
     },
+    
     methods: {
       updateProduct() {
         this.$store.dispatch('updateProduct', {id: this.payload.prodID, data: this.payload});

@@ -32,12 +32,14 @@
             <button @click="removeFromCart(item.prodID)" class="btn btn-danger Removebtn">Remove</button>
           </td>
         </tr>
+      </tbody>
+      <tfoot>
         <tr class="total-row">
           <td colspan="5">
             Total: R{{ cartItems.reduce((total, item) => total + (item.amount * item.quantity), 0).toFixed(2) }}
           </td>
         </tr>
-      </tbody>
+      </tfoot>
     </table>
     <div class="button-group">
       <button @click="clearCart" class="btn btn-danger">Clear Cart</button>
@@ -85,26 +87,17 @@ export default {
       }
     },
 
-    async removeFromCart(prodID) {
-      try {
-        const userID = cookies.get('LegitUser')?.user?.userID;
-        if (!userID) {
-          throw new Error('User ID not found.');
-        }
-        await this.$store.dispatch('removeFromCart', { prodID, userID });
-        toast.success('Item removed from cart.', {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-      } catch (error) {
-        toast.error('Unable to remove item from cart.', {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-        console.error('Error removing item from cart:', error);
-      }
-    },
-
+  async removeFromCart(prodID) {
+  try {
+    const userID = cookies.get('LegitUser')?.user?.userID;
+    if (!userID) {
+      throw new Error('User ID not found.');
+    }
+    await this.$store.dispatch('removeFromCart', { prodID, userID });
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+  }
+},
     async updateQuantity(item) {
       try {
         const userID = cookies.get('LegitUser')?.user?.userID;
@@ -126,40 +119,42 @@ export default {
     },
 
     async clearCart() {
-      try {
-        const userID = cookies.get('LegitUser')?.user?.userID;
-        if (!userID) {
-          throw new Error('User ID not found.');
-        }
-        await this.$store.dispatch('clearCart', userID);
-        toast.success('Cart cleared successfully.', {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-      } catch (error) {
-        toast.error('Failed to clear cart.', {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-        console.error('Error clearing cart:', error);
-      }
-    },
-
-    async payNow() {
-      try {
-        await this.$store.dispatch('payNow');
-        toast.success('Successful, thank you for your purchase!', {
-          autoClose: 3000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-      } catch (error) {
-        toast.error('Payment failed. Please try again.', {
-          autoClose: 3000,
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-        console.error('Payment error:', error);
-      }
+  try {
+    const userID = cookies.get('LegitUser')?.user?.userID;
+    if (!userID) {
+      throw new Error('User ID not found.');
     }
+    await this.$store.dispatch('clearCart', userID);
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+  }
+},
+async payNow() {
+  try {
+    // Check if the cart is empty
+    const cartItems = this.$store.state.cartItems; // Replace with your actual cart state path
+    if (cartItems.length === 0) {
+      toast.info('Your cart is empty. Add items to the cart before proceeding with payment.', {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+      return; 
+    }
+    // Proceed with the payment
+    await this.$store.dispatch('payNow');
+    toast.success('Successful, thank you for your purchase!', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  } catch (error) {
+    toast.error('Payment failed. Please try again.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+    console.error('Payment error:', error);
+  }
+}
+
   },
   
   created() {
@@ -182,6 +177,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 10px; /* Adjust the gap as needed */
+  margin-bottom: 1rem;
 }
 .container-fluid{
   background: rgb(222, 138, 152);

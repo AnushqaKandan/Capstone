@@ -20,7 +20,7 @@
             <i class="bi bi-truck"></i>
           </div>
           <div class="col-5">
-            <h5><b>Free shipping</b></h5>
+            <h5>Free shipping</h5>
             <p>Free Shipping On All Orders over R20 000</p>
           </div>
           <div class="col-1"></div>
@@ -33,7 +33,7 @@
             <i class="bi bi-check2-square"></i>
           </div>
           <div class="col-5">
-            <h5><b>Money Guarantee</b></h5>
+            <h5>Money Guarantee</h5>
             <p>30 Day Money Back</p>
           </div>
           <div class="col-1"></div>
@@ -47,7 +47,7 @@
             <i class="bi bi-headset"></i>
           </div>
           <div class="col-5">
-            <h5><b>Online Support 24/7</b></h5>
+            <h5>Online Support 24/7</h5>
             <p>Technical Support 24/7</p>
           </div>
           <div class="col-1"></div>
@@ -60,7 +60,7 @@
             <i class="bi bi-wallet2"></i>
           </div>
           <div class="col-5">
-            <h5><b>Secure Payment</b></h5>
+            <h5>Secure Payment</h5>
             <p>All payment methods accepted</p>
           </div>
           <div class="col-1"></div>
@@ -163,5 +163,35 @@ font-family: "Poetsen One", sans-serif;
     margin-bottom: 1rem;
 }
 
+/* Responsive centering for smaller screens */
+@media only screen and (max-width: 992px) {
+  .meh .col-3 {
+    flex: 0 0 50%; /* Take up 50% of the container width */
+    max-width: 50%; /* Limit the maximum width to 50% */
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .meh .col-3 {
+    flex: 0 0 100%; /* Take up 100% of the container width */
+    max-width: 100%; /* Limit the maximum width to 100% */
+  }
+  
+  /* Center content and force vertical layout on smaller screens */
+  .meh .row > div {
+    display: flex;
+    flex-direction: column; /* Stack icon and text vertically */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .meh .col-3 .row {
+    flex-direction: column; /* Ensure icons and text stack vertically */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
 
 </style>

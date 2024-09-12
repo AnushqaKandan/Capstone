@@ -187,7 +187,7 @@ export default {
 }
 
 /* Responsive Styles for Users Table */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .users-table {
     width: 100%;
     border-collapse: collapse;
@@ -247,7 +247,7 @@ export default {
 }
 
 /* Responsive Styles for Products Table */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .products-table {
     width: 100%;
     border-collapse: collapse;

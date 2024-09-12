@@ -7,6 +7,7 @@ import { applyToken } from '@/service/AuthenticatedUser.js';
 import { useCookies } from 'vue3-cookies';
 const { cookies } = useCookies();
 const apiURL = 'http://localhost:3005/';
+console.log(cookies.get('LegitUser')?.token);
 
 applyToken(cookies.get('LegitUser')?.token)
 export default createStore({
@@ -189,6 +190,7 @@ async login({ commit }, payload) {
      
       // Store token and user in cookies
       cookies.set('LegitUser', { token, user });
+      applyToken(token);  // Ensure token is set in headers
 
       // Redirect based on user role
       router.push(user.userRole === 'Admin' ? { name: 'admin' } : { name: 'home' });
@@ -204,6 +206,7 @@ async login({ commit }, payload) {
   logout({ commit }) {
     commit('logout');
     cookies.remove('LegitUser');
+    applyToken(null);
     router.push('/');
   },
       
@@ -288,28 +291,31 @@ async login({ commit }, payload) {
         });
       }
     },
+
     async updateProduct(context, payload) {
+      console.log(payload.data);
       try {
-        const { msg, err } = await (await axios.patch(`${apiURL}products/${payload.prodID}`, payload)).data;
+        const { msg, err } = await (await axios.patch(`${apiURL}products/${payload.id}`, payload.data)).data;
         if (msg) {
           context.dispatch('fetchProducts');
-          toast.success(msg, {
+          toast?.success(msg, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         } else {
-          toast.error(err, {
+          toast?.error(err, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         }
       } catch (e) {
-        toast.error(e.message, {
+        toast?.error(e.message, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
       }
     },
+
     async deleteProduct(context, id) {
       try {
         const { msg } = await (await axios.delete(`${apiURL}products/${id}`)).data;
@@ -343,9 +349,10 @@ async login({ commit }, payload) {
 
   async addToCart({ commit, state }, payload) {
     try {
+    
         const response = await axios.post(`${apiURL}cart/addToCart`, {
             prodID: payload.prodID,
-            userID: state.user.userID, 
+            userID: state.user?.userID || cookies.get('LegitUser')?.user.userID
         });
         if (response.data.msg) {
             commit('addToCart', payload);
@@ -400,11 +407,39 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
     }
   },
 
-  async clearCart({ commit, state }) {
-    try {
-      // Make a DELETE request to clear the cart for the current user
-      const { msg } = await axios.delete(`${apiURL}cart/${state.user.userID}`);
+  // async clearCart({ commit, state }) {
+  //   try {
+  //     // Make a DELETE request to clear the cart for the current user
+  //     const { msg } = await axios.delete(`${apiURL}cart/${state.user.userID}`);
       
+  //     if (msg) {
+  //       // If successful, clear the cart items in the state
+  //       commit('setCartItems', []);
+  //       toast.success(`${msg}`, {
+  //         autoClose: 2000,
+  //         position: toast.POSITION.BOTTOM_CENTER,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     toast.error(`Failed to clear cart: ${e.message}`, {
+  //       autoClose: 2000,
+  //       position: toast.POSITION.BOTTOM_CENTER,
+  //     });
+  //   }
+  // },
+  async clearCart({ commit }) {
+    try {
+      // Retrieve user ID from cookies
+      const userID = cookies.get('LegitUser')?.user?.userID;
+  
+      if (!userID) {
+        throw new Error('User ID not found.');
+      }
+  
+      // Make a DELETE request to clear the cart for the current user
+      const response = await axios.delete(`${apiURL}cart/${userID}`);
+      const { msg } = response.data; // Extracting the message from response data
+  
       if (msg) {
         // If successful, clear the cart items in the state
         commit('setCartItems', []);
@@ -419,7 +454,8 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
         position: toast.POSITION.BOTTOM_CENTER,
       });
     }
-  },
+  }
+  
   },
   modules: {},
 });

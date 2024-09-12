@@ -42,7 +42,7 @@
                 </template>
                 <template #cardBody>
                      <h5 class="card-title fw-bold">{{ product.prodName }}</h5>
-                     <p class="lead"><span class="text-success fw-bold">Amount</span>: R{{ product.amount }}</p>
+                     <p class="lead"><span class="fw-bold amounty">Amount</span>: R{{ product.amount }}</p>
                     <div class="button-wrapper d-md-flex d-block justify-content-between">
                         
                         <router-link :to="{ name: 'product', params: { id: product.prodID } }">
@@ -120,6 +120,32 @@ const addToCart = (product) => {
 
 <style scoped>
 .btn{
+  color: white;
+  background-color: maroon;
+}
+.amounty{
+    color: goldenrod
+}
+.card {
+  max-width: 350px;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  flex: 1; /* This ensures the card body takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.button-wrapper {
+  margin-top: 1rem; 
+}
+
+.btn {
   color: white;
   background-color: maroon;
 }

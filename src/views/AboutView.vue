@@ -36,8 +36,6 @@
       </div>
     </div>
   </div>
-
-
   </div>
 </template>
 
@@ -100,6 +98,8 @@ export default {
   .Image {
     text-align: center;
     margin: 20px 0;
+    width: 100%; /* Ensure container takes full width */
+    overflow: hidden; /* Prevent overflow of image */
   }
 
   .img-about {
@@ -108,11 +108,18 @@ export default {
     border-radius: 8px;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1204px) {
     .cardAbout2 {
-      max-width: 100%;
+      max-width: 90%;
       margin: 10px 0;
     }
+
+    .row {
+      flex-direction: column; 
+      align-items: center;
+    }
   }
+
+
 </style>
 

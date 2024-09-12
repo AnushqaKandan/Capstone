@@ -10,11 +10,11 @@
           <img :src="$store.state.product.prodURL" class="card-img-top mx-auto">
           <div class="card-body">
             <div class="prodName">
-              <h5 class="card-title">{{$store.state.product.prodName}}</h5>
+              <h5 class="card-title fw-bold">{{$store.state.product.prodName}}</h5>
             </div>
             <div>
               <h6> Category: {{$store.state.product.Category}}</h6>
-              <h6 class="card-text">Price: R{{$store.state.product.amount}}</h6>
+              <h6 class="card-text fw-bold">Amount: R{{$store.state.product.amount}}</h6>
             </div>
             <div class="button-wrapper d-md-flex d-block justify-content-between">
             <!-- Add to Cart Button -->
