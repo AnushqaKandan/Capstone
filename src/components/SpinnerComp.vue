@@ -17,7 +17,6 @@ export default {
 </script>
 
 <style scoped>
-/* From Uiverse.io by andrew-demchenk0 */ 
 .pyramid-loader {
   position: relative;
   width: 300px;
@@ -25,7 +24,7 @@ export default {
   display: block;
   transform-style: preserve-3d;
   transform: rotateX(-20deg);
-  margin: 0 auto; /* Centers horizontally if the parent is a block element with width */
+  margin: 0 auto; 
 }
 
 .wrapper {

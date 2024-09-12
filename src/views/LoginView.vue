@@ -3,21 +3,21 @@
   <div class="container-fluid auth-container imglog">
     <div class="center-container">
       <div class="text-center">
-        <h1>Luminous Gems</h1>
+        <h1 v-if="!showForm">Luminous Gems</h1>
         <div class="auth-buttons" v-if="!showForm">
           <button @click="showForm = 'login'" class="btn">Login</button>
           <button @click="showForm = 'signup'" class="btn">Register</button>
         </div>
       </div>
+      <!-- Login form -->
       <Login v-if="showForm === 'login'" @close="showForm = null" />
-      <SignUp v-if="showForm === 'signup'" @close="showForm = null" />
+      <!-- Signup form -->
+      <SignUp v-if="showForm === 'signup'" @close="showForm = null" @login-success="handleLoginSuccess" />
     </div>
   </div>
-  
 </template>
 
 <script>
-
 import SignUp from '../components/SignUp.vue';
 import Login from '../components/LoginComp.vue';
 
@@ -29,20 +29,27 @@ export default {
   },
   data() {
     return {
-        showForm: null, 
+      showForm: null,  // Controls which form is displayed (login/signup)
     };
+  },
+  methods: {
+    handleLoginSuccess() {
+      this.showForm = 'login';  // Display login form
+    },
   },
 };
 </script>
 
 <style scoped>
+
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
 h1 {
   color: goldenrod;
   font-family: "Poetsen One", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 7rem;
+  font-size: 6rem;
   margin-bottom: 20px; /* Add space between the heading and buttons */
 }
 
@@ -54,9 +61,24 @@ h1 {
   background-position: center; 
 }
 
+@media only screen and (max-width: 839px) {
+  h1 {
+    font-size: 6rem;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .imglog {
     background-position: center; 
+  }
+  h1 {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .imglog {
+    height: 140vh; 
   }
 }
 
@@ -80,7 +102,8 @@ h1 {
   align-items: center;
   height: 100vh;
 }
-/* From Uiverse.io by adamgiebl */ 
+
+/* Button styling */
 button {
   font-size: 18px;
   letter-spacing: 2px;

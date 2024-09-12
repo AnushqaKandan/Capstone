@@ -42,8 +42,6 @@
     font-weight: bold;
 }
 
-
-
 a { 
     transition: all .5s;
  
@@ -54,10 +52,6 @@ a {
     text-decoration: underline;
     color: goldenrod; 
 }
-
-/* .navbar-toggler {
-    border-color: goldenrod; 
-} */
 
 body {
     scroll-behavior: smooth;
@@ -74,22 +68,6 @@ img {
 img[alt='logo'] {
     width: 5rem;
 }
-
-/* Login */
-/* :is(.form-control-wrapper) {  
-    margin-block: .4rem;
-    & button {
-        margin-block: .3rem;
-    }
-} */
-
-/* Media query */
-/* width 100% */
-/* @media screen and (width < 900px) {
-    :is(.form-control-wrapper button) {
-        width: 100%;
-    }
-} */
 
 /* NavBar */
 

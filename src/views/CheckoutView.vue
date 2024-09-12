@@ -132,7 +132,7 @@ export default {
 async payNow() {
   try {
     // Check if the cart is empty
-    const cartItems = this.$store.state.cartItems; // Replace with your actual cart state path
+    const cartItems = this.$store.state.cartItems; 
     if (cartItems.length === 0) {
       toast.info('Your cart is empty. Add items to the cart before proceeding with payment.', {
         autoClose: 3000,
@@ -207,4 +207,95 @@ input[type="number"] {
 .total-row {
   font-weight: bold; 
 }
+
+/* Responsive Styles for Checkout Page */
+@media (max-width: 992px) {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: block;
+    width: 100%;
+  }
+
+  tfoot {
+    display: block;
+    width: 100%;
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  td {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    border-bottom: 1px dotted #ccc;
+    padding: 10px;
+    position: relative;
+  }
+
+  td:before {
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+
+  /* Add labels for each column */
+  td:nth-child(1):before {
+    content: "Product Name";
+  }
+
+  td:nth-child(2):before {
+    content: "Category";
+  }
+
+  td:nth-child(3):before {
+    content: "Product";
+  }
+
+  td:nth-child(4):before {
+    content: "Price";
+  }
+
+  td:nth-child(5):before {
+    content: "Quantity";
+  }
+
+  td:nth-child(6):before {
+    content: "Action";
+  }
+
+  /* Ensure no labels for the total row */
+  .total-row td {
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    border-bottom: 0;
+    padding: 10px;
+    position: relative;
+  }
+
+  .total-row td:before {
+    content: none;
+  }
+
+  
+}
+
+
 </style>

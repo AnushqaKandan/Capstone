@@ -60,25 +60,12 @@ export default createStore({
       state.token = '';
       localStorage.removeItem('token');
     },
-    // setCartItems(state, items) {
-    //   state.cartItems = items;
-    // },
+  
     setCartItems(state, items) {
       state.cartItems = items;
       state.cartCount = items.reduce((count, item) => count + item.quantity, 0);  // Update cartCount based on items
     },
-    // addToCart(state, item) {
-    //   const existingItem = state.cartItems.find(cartItem => cartItem.prodID === item.prodID);
-    //   if (existingItem) {
-    //     existingItem.quantity += 1;
-    //   } else {
-    //     state.cartItems.push({...item, quantity: 1});
-    //   }
-    // },
-    // removeFromCart(state, { userID, prodID }) {
-    //   state.cartItems = state.cartItems.filter(item => item.prodID !== prodID || item.userID !== userID);
-    // },
-    addToCart(state, item) {
+   addToCart(state, item) {
       const existingItem = state.cartItems.find(cartItem => cartItem.prodID === item.prodID);
       if (existingItem) {
         existingItem.quantity += 1;
@@ -235,18 +222,6 @@ async login({ commit }, payload) {
     applyToken(null);
     router.push('/');
   },
-      
-// logout({ commit }) {
-//   commit('setAuthenticated', false);
-//   commit('setUserRole', null);
-// },
-    // async logout(context) {
-    //   context.commit('clearToken');
-    //   context.commit('setUser', null);
-    //   cookies.remove('LegitUser');
-    //   router.push({ name: 'auth-options' });
-    // },
-
     // ==== Product =====
     async fetchProducts(context) {
       try {
@@ -443,7 +418,7 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
   
       // Make a DELETE request to clear the cart for the current user
       const response = await axios.delete(`${apiURL}cart/${userID}`);
-      const { msg } = response.data; // Extracting the message from response data
+      const { msg } = response.data; 
   
       if (msg) {
         // If successful, clear the cart items in the state

@@ -174,16 +174,16 @@ export default {
 
 /* Center and overlay the spinner */
 .loading-spinner {
-  position: fixed; /* Fixed positioning to overlay the content */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Darkened background */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1050; /* Higher z-index to be on top of other content */
+  z-index: 1050;
 }
 
 /* Responsive Styles for Users Table */

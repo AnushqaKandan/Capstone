@@ -53,7 +53,6 @@ export default {
 <style scoped>
   .container-fluid {
     padding: 20px;
-    /* Gradient background with rich pink tones */
     background: rgb(222, 138, 152);
     color: #fff;
     min-height: 100vh;
@@ -67,12 +66,12 @@ export default {
   }
 
   .cardAbout, .cardAbout2 {
-    background: rgba(255, 255, 255, 0.1); /* Transparent background */
+    background: rgba(255, 255, 255, 0.1); 
     padding: 20px;
     margin: 15px 0;
     border-radius: 8px;
-    box-shadow: 0 0 15px rgba(114, 6, 64, 0.7), 0 0 15px rgba(254, 28, 149, 0.7) inset; /* Glowing effect with pink */
-    backdrop-filter: blur(5px); /* Blur effect for transparency */
+    box-shadow: 0 0 15px rgba(114, 6, 64, 0.7), 0 0 15px rgba(254, 28, 149, 0.7) inset; 
+    backdrop-filter: blur(5px); 
   }
 
   .row {
@@ -98,8 +97,8 @@ export default {
   .Image {
     text-align: center;
     margin: 20px 0;
-    width: 100%; /* Ensure container takes full width */
-    overflow: hidden; /* Prevent overflow of image */
+    width: 100%; 
+    overflow: hidden; 
   }
 
   .img-about {

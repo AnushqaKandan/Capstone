@@ -32,7 +32,7 @@
         <!-- Message Form Card -->
         <div class="contact-card">
           <h3>Send Us a Message</h3>
-          <form action="/submit-contact-form" method="post">
+          <form action="https://formspree.io/f/mdknvevq" method="post">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
 
@@ -94,7 +94,7 @@ export default {
 .info-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center; /* Center vertically */
+  align-items: center; 
   margin-top: 5rem;
 }
 .contact-card {

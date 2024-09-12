@@ -1,119 +1,121 @@
 <template>
-  <div class="signup-container">
-    <h1>Sign Up</h1>
-    <form @submit.prevent="register">
-      <div class="form-group">
-        <!-- Form Fields -->
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control mx-auto"
-            placeholder="First Name"
-            v-model="payload.firstName"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control mx-auto"
-            placeholder="Last Name"
-            v-model="payload.lastName"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="number"
-            class="form-control mx-auto"
-            placeholder="Age"
-            v-model="payload.userAge"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control mx-auto"
-            placeholder="Gender"
-            v-model="payload.Gender"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control mx-auto"
-            placeholder="Role e.g. user"
-            v-model="payload.userRole"
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="email"
-            class="form-control mx-auto"
-            placeholder="Email Address"
-            v-model="payload.emailAdd"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="password"
-            class="form-control mx-auto"
-            placeholder="Password"
-            v-model="payload.userPass"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control mx-auto"
-            placeholder="Profile Picture URL"
-            v-model="payload.userProfile"
-            required
-          />
-        </div>
-      </div>
-      <div class="form-footer">
-        <button type="button" class="btn btn-secondary" @click="$emit('close')">Close</button>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
-      </div>
-    </form>
+    <div class="signup-page"> <!-- New container for centering -->
+        <div class="signup-container">
+          <h1>Sign Up</h1>
+          <form @submit.prevent="register">
+            <div class="form-group">
+              <!-- Form Fields -->
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mx-auto"
+                  placeholder="First Name"
+                  v-model="payload.firstName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mx-auto"
+                  placeholder="Last Name"
+                  v-model="payload.lastName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="number"
+                  class="form-control mx-auto"
+                  placeholder="Age"
+                  v-model="payload.userAge"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mx-auto"
+                  placeholder="Gender"
+                  v-model="payload.Gender"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mx-auto"
+                  placeholder="Role e.g. user"
+                  v-model="payload.userRole"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  class="form-control mx-auto"
+                  placeholder="Email Address"
+                  v-model="payload.emailAdd"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="form-control mx-auto"
+                  placeholder="Password"
+                  v-model="payload.userPass"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mx-auto"
+                  placeholder="Profile Picture URL"
+                  v-model="payload.userProfile"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-footer">
+              <button type="button" class="btn btn-secondary" @click="$emit('close')">Close</button>
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+          </form>
 
-    <!-- Loading Spinner -->
-    <div v-if="loading" class="loading-spinner">
-      <SpinnerComp />
-    </div>
+          <!-- Loading Spinner -->
+          <div v-if="loading" class="loading-spinner">
+            <SpinnerComp />
+          </div>
 
-    <!-- Success Modal -->
-    <div v-if="showModal" class="modal fade show d-block" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="successModalLabel">Success</h5>
-          </div>
-          <div class="modal-body">
-            <p>You have successfully signed up! Click the button below to log in.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn" @click="showModal = false">Close</button>
-            <button type="button" class="btn" @click="redirectToLogin">Login</button>
+          <!-- Success Modal -->
+          <div v-if="showModal" class="modal fade show d-block" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="successModalLabel">Success</h5>
+                </div>
+                <div class="modal-body">
+                  <p>You have successfully signed up! Click the button below to log in.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" @click="showModal = false">Close</button>
+                  <button type="button" class="btn" @click="redirectToLogin">Login</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import SpinnerComp from '@/components/SpinnerComp.vue'; // Import the spinner component
+import SpinnerComp from '@/components/SpinnerComp.vue'; 
 
 export default {
   name: 'SignUp',
   components: {
-    SpinnerComp // Register the spinner component
+    SpinnerComp 
   },
   data() {
     return {
@@ -128,34 +130,42 @@ export default {
         userProfile: "",
       },
       showModal: false,
-      loading: false, // Track loading state
+      loading: false, 
     };
   },
   methods: {
-    async register() {
-      this.loading = true; // Show spinner
-      try {
-        await this.$store.dispatch('register', this.payload);
-        this.showModal = true; // Show modal on success
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.loading = false; // Hide spinner
-      }
-    },
-    redirectToLogin() {
-      this.showModal = false;
-      this.$router.push('/login'); // Redirect to login
-    },
+  async register() {
+    this.loading = true; // Show spinner
+    try {
+      await this.$store.dispatch('register', this.payload);
+      this.showModal = true; 
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.loading = false; 
+    }
   },
+  redirectToLogin() {
+    this.showModal = false;
+    this.$emit('login-success'); 
+  },
+},
+
 };
 </script>
 
 <style scoped>
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: 1rem; /* Full viewport height */
+}
+
 .signup-container {
   width: 25rem;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -164,9 +174,9 @@ export default {
 
 h1 {
   text-align: center;
-  color: black;
+  color: white;
   font-size: 3rem;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(7px);
 }
 
 .form-control {
@@ -247,5 +257,26 @@ button:hover::before {
   justify-content: center;
   align-items: center;
   z-index: 1050; /* Higher z-index to be on top of other content */
+}
+
+/* Responsive styles for 480px screen width */
+@media (max-width: 480px) {
+  .signup-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+  .form-footer {
+    justify-content: center; /* Align buttons next to each other */
+    gap: 10px;
+  }
+
+  button {
+    min-width: 100px; /* Ensure buttons fit nicely on smaller screens */
+  }
 }
 </style>

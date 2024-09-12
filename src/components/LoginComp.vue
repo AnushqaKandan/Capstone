@@ -136,6 +136,29 @@ button:hover::before {
   opacity: 1;
 }
 
+/* Mobile responsiveness */
 
+@media (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    padding: 10px;
+  }
 
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    min-width: 90px;
+    padding: 8px 12px;
+  }
+
+  input {
+    padding: 6px;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+}
 </style>
