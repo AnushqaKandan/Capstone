@@ -75,6 +75,11 @@ h1 {
     font-size: 5rem;
   }
 }
+@media only screen and (max-width: 426px) {
+  h1 {
+    font-size: 4rem;
+  }
+}
 
 @media only screen and (max-width: 360px) {
   .imglog {

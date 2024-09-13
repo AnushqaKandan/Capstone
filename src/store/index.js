@@ -418,24 +418,6 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
   }
 },
 
-  // async updateCartItemQuantity({ commit }, payload) {
-  //   try {
-  //     const { msg } = await axios.patch(`${apiURL}cart/${payload.prodID}`, { quantity: payload.quantity });
-  //     if (msg) {
-  //       commit('updateCartItemQuantity', payload);
-  //       toast.success(`${msg}`, {
-  //         autoClose: 2000,
-  //         position: toast.POSITION.BOTTOM_CENTER,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     toast.error(`${e.message}`, {
-  //       autoClose: 2000,
-  //       position: toast.POSITION.BOTTOM_CENTER,
-  //     });
-  //   }
-  // },
-
   async updateCartItemQuantity({ commit }, payload) {
     try {
         const { msg } = await axios.patch(`${apiURL}cart/${payload.userID}/${payload.prodID}`, { quantity: payload.quantity });
