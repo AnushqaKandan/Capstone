@@ -24,23 +24,10 @@ cartRouter.delete('/:userID', (req, res) => {
     cart.clearCart(req, res);
 });
 
-cartRouter.put('/cart/:userID/updateQuantity', (req, res) => {
-    const { prodID, quantity } = req.body;
-    const userID = req.params.userID;
-    
-    const updateQry = `
-        UPDATE cart
-        SET quantity = ?
-        WHERE prodID = ? AND userID = ?;
-    `;
-    
-    connection.query(updateQry, [quantity, prodID, userID], (err) => {
-        if (err) {
-            return res.status(500).json({ msg: 'Error updating quantity' });
-        }
-        res.status(200).json({ msg: 'Quantity updated successfully' });
-    });
-});
+// cartRouter.patch('/:userID/:prodID', (req, res) => {
+//     cart.updateCartItemQuantity(req, res);
+// });
+
 
 export {
     cartRouter
