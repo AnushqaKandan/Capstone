@@ -87,19 +87,27 @@ export default {
       }
     },
 
-  async removeFromCart(prodID) {
-  try {
-    const userID = cookies.get('LegitUser')?.user?.userID;
-    if (!userID) {
-      throw new Error('User ID not found.');
-    }
-    await this.$store.dispatch('removeFromCart', { prodID, userID });
-  } catch (error) {
-    console.error('Error removing item from cart:', error);
-  }
-},
+    async removeFromCart(prodID) {
+      try {
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (!userID) {
+          throw new Error('User ID not found.');
+        }
+        await this.$store.dispatch('removeFromCart', { prodID, userID });
+      } catch (error) {
+        console.error('Error removing item from cart:', error);
+      }
+    },
+
     async updateQuantity(item) {
       try {
+        if (!this.validateQuantity(item.quantity)) {
+          toast.error('Quantity must be a positive integer.', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+          return;
+        }
         const userID = cookies.get('LegitUser')?.user?.userID;
         if (!userID) {
           throw new Error('User ID not found.');
@@ -118,43 +126,47 @@ export default {
       }
     },
 
-    async clearCart() {
-  try {
-    const userID = cookies.get('LegitUser')?.user?.userID;
-    if (!userID) {
-      throw new Error('User ID not found.');
-    }
-    await this.$store.dispatch('clearCart', userID);
-  } catch (error) {
-    console.error('Error clearing cart:', error);
-  }
-},
-async payNow() {
-  try {
-    // Check if the cart is empty
-    const cartItems = this.$store.state.cartItems; 
-    if (cartItems.length === 0) {
-      toast.info('Your cart is empty. Add items to the cart before proceeding with payment.', {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_CENTER
-      });
-      return; 
-    }
-    // Proceed with the payment
-    await this.$store.dispatch('payNow');
-    toast.success('Successful, thank you for your purchase!', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_CENTER
-    });
-  } catch (error) {
-    toast.error('Payment failed. Please try again.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_CENTER
-    });
-    console.error('Payment error:', error);
-  }
-}
+    validateQuantity(quantity) {
+      return Number.isInteger(quantity) && quantity > 0;
+    },
 
+    async clearCart() {
+      try {
+        const userID = cookies.get('LegitUser')?.user?.userID;
+        if (!userID) {
+          throw new Error('User ID not found.');
+        }
+        await this.$store.dispatch('clearCart', userID);
+      } catch (error) {
+        console.error('Error clearing cart:', error);
+      }
+    },
+
+    async payNow() {
+      try {
+        // Check if the cart is empty
+        const cartItems = this.cartItems; 
+        if (cartItems.length === 0) {
+          toast.info('Your cart is empty. Add items to the cart before proceeding with payment.', {
+            autoClose: 3000,
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+          return; 
+        }
+        // Proceed with the payment
+        await this.$store.dispatch('payNow');
+        toast.success('Successful, thank you for your purchase!', {
+          autoClose: 3000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      } catch (error) {
+        toast.error('Payment failed. Please try again.', {
+          autoClose: 3000,
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        console.error('Payment error:', error);
+      }
+    }
   },
   
   created() {
@@ -162,6 +174,7 @@ async payNow() {
   }
 }
 </script>
+
 
 <style scoped>
 

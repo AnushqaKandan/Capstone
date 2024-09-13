@@ -27,7 +27,9 @@ export default createStore({
   getters: {
     isAuthenticated: state => state.isAuthenticated,
     userRole: state => state.userRole,
-    cartCount: state => state.cartCount,  // Getter for cart count
+  cartCount(state) {
+      return state.cartItems.reduce((total, item) => total + item.quantity, 0);
+    },
     cartItems: state => state.cartItems,
     cartTotal: state => {
     return state.cartItems.reduce((total, item) => {
@@ -74,6 +76,12 @@ export default createStore({
       }
       state.cartCount += 1;  // Increment cart count
     },
+    updateCartItemQuantity(state, payload) {
+      const item = state.cartItems.find(item => item.prodID === payload.prodID);
+      if (item) {
+          item.quantity = payload.quantity;
+      }
+  },
     removeFromCart(state, { userID, prodID }) {
       const itemToRemove = state.cartItems.find(item => item.prodID === prodID && item.userID === userID);
       if (itemToRemove) {
@@ -410,23 +418,41 @@ async removeFromCart({ dispatch }, { prodID, userID }) {
   }
 },
 
+  // async updateCartItemQuantity({ commit }, payload) {
+  //   try {
+  //     const { msg } = await axios.patch(`${apiURL}cart/${payload.prodID}`, { quantity: payload.quantity });
+  //     if (msg) {
+  //       commit('updateCartItemQuantity', payload);
+  //       toast.success(`${msg}`, {
+  //         autoClose: 2000,
+  //         position: toast.POSITION.BOTTOM_CENTER,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     toast.error(`${e.message}`, {
+  //       autoClose: 2000,
+  //       position: toast.POSITION.BOTTOM_CENTER,
+  //     });
+  //   }
+  // },
+
   async updateCartItemQuantity({ commit }, payload) {
     try {
-      const { msg } = await axios.patch(`${apiURL}cart/${payload.prodID}`, { quantity: payload.quantity });
-      if (msg) {
-        commit('updateCartItemQuantity', payload);
-        toast.success(`${msg}`, {
-          autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
-      }
+        const { msg } = await axios.patch(`${apiURL}cart/${payload.userID}/${payload.prodID}`, { quantity: payload.quantity });
+        if (msg) {
+            commit('updateCartItemQuantity', payload);
+            toast.success(`${msg}`, {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_CENTER,
+            });
+        }
     } catch (e) {
-      toast.error(`${e.message}`, {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
+        toast.error(`${e.message}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+        });
     }
-  },
+},
 
   async clearCart({ commit }) {
     try {
