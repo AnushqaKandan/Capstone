@@ -99,6 +99,20 @@ export default createStore({
     },
   },
   actions: {
+
+    initialize({ commit }) {
+      const token = localStorage.getItem('token');
+      const user = cookies.get('LegitUser')?.user;
+
+      if (token) {
+        commit('setToken', token);
+        commit('setAuthenticated', true);
+        if (user) {
+          commit('setUser', user);
+          commit('setUserRole', user.userRole);
+        }
+      }
+    },
     // Users
     async fetchUsers({ commit }) {
       try {
@@ -173,24 +187,32 @@ export default createStore({
     
     async deleteUser(context, id) {
       try {
-        const { msg } = await (await axios.delete(`${apiURL}users/${id}`)).data
+        // Delete cart items before deleting the user
+        await axios.delete(`${apiURL}cart/${id}`);
+        
+        const response = await axios.delete(`${apiURL}users/${id}`);
+        const { msg } = response.data;
+        
         if (msg) {
-          context.dispatch('fetchUsers')
+          // Update state after successful deletion
+          context.dispatch('fetchUsers');  
+          
           toast.success(msg, {
             autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER
-          })
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
         }
       } catch (e) {
-        toast?.error(`Unable to delete a user`, {
+        toast.error(`Unable to delete the user: ${e.message}`, {
           autoClose: 2000,
-          position: toast.POSITION.BOTTOM_CENTER
-        })
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       }
     },
+    
+    
 
   // ===== LOGIN =======
-  // Login and Token Management
 async login({ commit }, payload) {
   try {
     const { err, user, token } = await (await axios.post(`${apiURL}users/login`, payload)).data;
@@ -203,7 +225,7 @@ async login({ commit }, payload) {
      
       // Store token and user in cookies
       cookies.set('LegitUser', { token, user });
-      applyToken(token);  // Ensure token is set in headers
+      applyToken(token); 
 
       // Redirect based on user role
       router.push(user.userRole === 'Admin' ? { name: 'admin' } : { name: 'home' });
@@ -211,11 +233,10 @@ async login({ commit }, payload) {
       toast.error(`${err}`, { autoClose: 2000, position: toast.POSITION.BOTTOM_CENTER });
     }
   } catch (e) {
-    toast.error(`${e.message}`, { autoClose: 2000, position: toast.POSITION.BOTTOM_CENTER });
+    toast.error('Login failed. Please try again.', { autoClose: 2000, position: toast.POSITION.BOTTOM_CENTER });
   }
 },
 
-  
   logout({ commit }) {
     commit('logout');
     cookies.remove('LegitUser');

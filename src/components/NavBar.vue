@@ -22,9 +22,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link" to="/" aria-current="page">Login</router-link>
-          </li>
+          </li> -->
           <li class="nav-item">
             <router-link class="nav-link" to="/home"  exact-active-class="active-link" aria-current="page">Home</router-link>
           </li>

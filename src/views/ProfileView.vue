@@ -108,8 +108,15 @@ export default {
       }
     },
     deleteUser(userID) {
-      this.$store.dispatch('deleteUser', userID);
-    },
+    this.$store.dispatch('deleteUser', userID)
+      .then(() => {
+        // Redirect to home page after successful deletion
+        this.$router.push('/');
+      })
+      .catch((error) => {
+        console.error('Error deleting user:', error);
+      });
+  },
     updateUser(user) {
       let editUser = {
         userID: user.userID,

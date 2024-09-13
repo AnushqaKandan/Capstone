@@ -66,7 +66,7 @@
               <div class="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  class="btn btn-danger close"
                   data-bs-dismiss="modal"
                 >
                   Close
@@ -74,7 +74,7 @@
                 <button
                   type="submit"
                   @click="addingProduct"
-                  class="btn btn-success"
+                  class="btn btn-dark"
                   data-bs-dismiss="modal"
                 >
                   Add Product
@@ -112,7 +112,8 @@
   };
   </script>
   <style scoped>
-  .btn{
-  text-decoration: underline;
+ .close{
+  color: white;  
+  background-color: maroon;
 }
 </style>
