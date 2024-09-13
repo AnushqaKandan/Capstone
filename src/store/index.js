@@ -6,7 +6,7 @@ import router from '@/router';
 import { applyToken } from '@/service/AuthenticatedUser.js';
 import { useCookies } from 'vue3-cookies';
 const { cookies } = useCookies();
-const apiURL = 'http://localhost:3005/';
+const apiURL = ' https://capstone-w1vm.onrender.com/';
 console.log(cookies.get('LegitUser')?.token);
 
 applyToken(cookies.get('LegitUser')?.token)
