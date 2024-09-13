@@ -141,6 +141,29 @@ removeFromCart(req, res) {
         res.status(500).json({ msg: e.message });
     }
 }
+updateCartItemQuantity(req, res) {
+    const userID = parseInt(req.params.userID, 10);
+    const prodID = parseInt(req.params.prodID, 10);
+    const { quantity } = req.body; // Get the new quantity from the request body
+
+    if (isNaN(userID) || isNaN(prodID) || isNaN(quantity)) {
+        return res.status(400).json({ msg: 'Invalid user ID, product ID, or quantity' });
+    }
+
+    const updateQry = `
+        UPDATE cart
+        SET quantity = ?
+        WHERE prodID = ? AND userID = ?;
+    `;
+    
+    connection.query(updateQry, [quantity, prodID, userID], (err) => {
+        if (err) {
+            console.error('Error updating cart item quantity:', err);
+            return res.status(500).json({ msg: 'Error updating cart item quantity' });
+        }
+        res.status(200).json({ msg: 'Cart item quantity updated successfully' });
+    });
+}
 
 }
 
